@@ -16,7 +16,12 @@
         public string Description { get; set; }
 
         public Guid? AccountReceiverId {get;set;}
-        
+
+        public Guid AccountCreatedByUserId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public Guid? AccountUpdatedByUserId { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+
 
         /* EF Relations */
         public Account Account { get; set; }

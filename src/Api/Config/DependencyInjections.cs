@@ -1,5 +1,7 @@
 ﻿using Api.Extensions;
 using Business.Interfaces;
+using Business.Interfaces.Services;
+using Business.Services.Notifications;
 using Data.Context;
 
 namespace Api.Config
@@ -13,6 +15,7 @@ namespace Api.Config
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspNetUser>();
 
+            services.AddScoped<INotificator, Notificator>();
 
 
             return services;

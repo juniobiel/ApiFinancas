@@ -1,34 +1,34 @@
 using Api.Config;
+using Api.Config.Swagger;
 using Data.Context;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddControllers();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddApiConfig();
 
 builder.Services.AddDbContext<FinanceDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.ResolveDependencies();
+
 builder.Services.AddIndentityConfiguration(builder.Configuration);
+
+builder.Services.AddSwaggerConfig();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 app.Run();

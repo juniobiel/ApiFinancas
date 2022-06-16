@@ -1,8 +1,11 @@
-﻿using Api.Extensions;
+﻿using Api.Config.Swagger;
+using Api.Extensions;
 using Business.Interfaces;
 using Business.Interfaces.Services;
 using Business.Services.Notifications;
 using Data.Context;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Api.Config
 {
@@ -12,11 +15,12 @@ namespace Api.Config
         {
             services.AddScoped<FinanceDbContext>();
 
+            services.AddScoped<INotificator, Notificator>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspNetUser>();
 
-            services.AddScoped<INotificator, Notificator>();
-
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
             return services;
         }

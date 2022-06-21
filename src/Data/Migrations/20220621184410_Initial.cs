@@ -55,10 +55,10 @@ namespace Data.Migrations
                     Value = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "varchar(200)", nullable: true, defaultValue: "Nova movimentação"),
-                    AccountTransferReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AccountCreatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AccountReceiverId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TransactionCreatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AccountUpdatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    TransactionUpdatedByUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -70,8 +70,8 @@ namespace Data.Migrations
                         principalTable: "Accounts",
                         principalColumn: "AccountId");
                     table.ForeignKey(
-                        name: "FK_Transactions_Accounts_AccountTransferReceiverId",
-                        column: x => x.AccountTransferReceiverId,
+                        name: "FK_Transactions_Accounts_AccountReceiverId",
+                        column: x => x.AccountReceiverId,
                         principalTable: "Accounts",
                         principalColumn: "AccountId");
                     table.ForeignKey(
@@ -87,11 +87,9 @@ namespace Data.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_AccountTransferReceiverId",
+                name: "IX_Transactions_AccountReceiverId",
                 table: "Transactions",
-                column: "AccountTransferReceiverId",
-                unique: true,
-                filter: "[AccountTransferReceiverId] IS NOT NULL");
+                column: "AccountReceiverId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_CategoryId",

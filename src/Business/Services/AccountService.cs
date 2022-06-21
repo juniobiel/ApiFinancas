@@ -1,4 +1,5 @@
-﻿using Business.Interfaces.Repositories;
+﻿using Business.Interfaces;
+using Business.Interfaces.Repositories;
 using Business.Interfaces.Services;
 using Business.Models;
 using Business.Services.Validations;
@@ -8,11 +9,13 @@ namespace Business.Services
     public class AccountService : BaseService, IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        
+        private readonly IUser _appUser;
         public AccountService(IAccountRepository accountRepository,
-                                INotificator notificator) : base(notificator)
+                                INotificator notificator,
+                                IUser appUser) : base(notificator)
         {
             _accountRepository = accountRepository;
+            _appUser = appUser;
         }
 
         public async Task Add( Account account )

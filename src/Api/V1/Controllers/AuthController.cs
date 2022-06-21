@@ -1,6 +1,7 @@
 ﻿using Api.Controllers;
 using Api.Extensions;
 using Api.V1.ViewModels;
+using Api.V1.ViewModels.User;
 using Business.Interfaces;
 using Business.Interfaces.Services;
 using Microsoft.AspNetCore.Identity;
@@ -66,7 +67,7 @@ namespace Api.V1.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
             if (result.Succeeded)
             {

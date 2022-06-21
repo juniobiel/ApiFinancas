@@ -95,15 +95,9 @@ namespace Data.Migrations
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AccountCreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("AccountReceiverId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("AccountTransferReceiverId");
-
-                    b.Property<Guid?>("AccountUpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnName("AccountReceiverId");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -116,12 +110,18 @@ namespace Data.Migrations
                         .HasColumnType("varchar(200)")
                         .HasDefaultValue("Nova movimentação");
 
+                    b.Property<Guid>("TransactionCreatedByUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
+
+                    b.Property<Guid?>("TransactionUpdatedByUserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -133,9 +133,7 @@ namespace Data.Migrations
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("AccountReceiverId")
-                        .IsUnique()
-                        .HasFilter("[AccountTransferReceiverId] IS NOT NULL");
+                    b.HasIndex("AccountReceiverId");
 
                     b.HasIndex("CategoryId");
 
@@ -150,8 +148,8 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Business.Models.Account", "AccountReceiver")
-                        .WithOne("TransferTransaction")
-                        .HasForeignKey("Business.Models.Transaction", "AccountReceiverId");
+                        .WithMany("ReceivedTransactions")
+                        .HasForeignKey("AccountReceiverId");
 
                     b.HasOne("Business.Models.Category", "Category")
                         .WithMany("Transactions")
@@ -167,9 +165,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Business.Models.Account", b =>
                 {
-                    b.Navigation("Transactions");
+                    b.Navigation("ReceivedTransactions");
 
-                    b.Navigation("TransferTransaction");
+                    b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("Business.Models.Category", b =>

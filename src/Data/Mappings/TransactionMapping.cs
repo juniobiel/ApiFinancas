@@ -33,11 +33,11 @@ namespace Data.Mappings
                 .HasForeignKey(a => a.AccountId);
 
             builder.Property(p => p.AccountReceiverId)
-                .HasColumnName("AccountTransferReceiverId");
+                .HasColumnName("AccountReceiverId");
 
             builder.HasOne(a => a.AccountReceiver)
-                .WithOne(t => t.TransferTransaction)
-                .HasForeignKey<Transaction>(t => t.AccountReceiverId)
+                .WithMany(t => t.ReceivedTransactions)
+                .HasForeignKey(a => a.AccountReceiverId)
                 .IsRequired(false);
 
             builder.ToTable("Transactions");

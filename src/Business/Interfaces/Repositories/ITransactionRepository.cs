@@ -9,6 +9,8 @@ namespace Business.Interfaces.Repositories
         Task<Transaction> GetTransactionById( Guid transactionId );
         Task<IEnumerable<Transaction>> GetTransactionsByCategoryId( int categoryId );
         Task<IEnumerable<Transaction>> GetTransactionsByTransactionType( TransactionType transactionType );
+
+        Task<IEnumerable<Transaction>> GetTransferReceivedByAccount(Guid id);
         Task Remove( Guid id );
 
     }

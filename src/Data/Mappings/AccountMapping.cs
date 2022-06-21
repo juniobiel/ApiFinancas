@@ -17,9 +17,17 @@ namespace Data.Mappings
             builder.Property(p => p.AccountBalance)
                 .HasDefaultValue(0);
 
+            //Transações feitas pela conta
             builder.HasMany(t => t.Transactions)
                 .WithOne(a => a.Account)
                 .HasForeignKey(a => a.AccountId);
+
+            //transferencia recebidas
+            builder.HasMany(a => a.ReceivedTransactions)
+                .WithOne(t => t.AccountReceiver)
+                .HasForeignKey(t => t.AccountReceiverId);
+
+
 
 
             builder.ToTable("Accounts");

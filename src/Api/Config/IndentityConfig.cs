@@ -15,6 +15,7 @@ namespace Api.Config
             services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApiDbContext>()
                 .AddDefaultTokenProviders()
                 .AddErrorDescriber<IdentityMensagensPortugues>();

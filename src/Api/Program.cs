@@ -18,6 +18,8 @@ builder.Services.AddIndentityConfiguration(builder.Configuration);
 
 builder.Services.AddSwaggerConfig();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 
 var app = builder.Build();
 
@@ -25,6 +27,7 @@ var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionD
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

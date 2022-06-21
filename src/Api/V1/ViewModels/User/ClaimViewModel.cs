@@ -1,4 +1,4 @@
-﻿namespace Api.V1.ViewModels
+﻿namespace Api.V1.ViewModels.User
 {
     public class ClaimViewModel
     {

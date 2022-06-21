@@ -27,6 +27,5 @@ namespace Data.Repository
             Db.Accounts.Remove(new Account { AccountId = id });
             await base.SaveChanges();
         }
-
     }
 }

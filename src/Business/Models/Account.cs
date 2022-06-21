@@ -17,6 +17,6 @@
 
         /* EF Relations */
         public IEnumerable<Transaction> Transactions { get; set; }
-        public Transaction TransferTransaction { get; set; }
+        public IEnumerable<Transaction> ReceivedTransactions { get; set; }
     }
 }

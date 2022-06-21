@@ -49,5 +49,11 @@ namespace Data.Repository
             Db.Transactions.Remove(new Transaction { TransactionId = id });
             await base.SaveChanges();
         }
+
+        public async Task<IEnumerable<Transaction>> GetTransferReceivedByAccount(Guid accountId)
+        {
+            return await Db.Transactions.AsNoTracking()
+                .Where(a => a.AccountReceiverId == accountId).ToListAsync();
+        }
     }
 }

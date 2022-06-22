@@ -22,10 +22,18 @@ namespace Data.Repository
             return await Db.Accounts.AsNoTracking().FirstOrDefaultAsync(t => t.AccountId == id);
         }
 
+
+        public async Task<IEnumerable<Account>> GetAccountsByUserId(Guid userId)
+        {
+            return await Db.Accounts.AsNoTracking()
+                .Where(a => a.AccountCreatedByUserId == userId)
+                .ToListAsync();
+        }
+
         public async Task Remove( Guid id )
         {
             Db.Accounts.Remove(new Account { AccountId = id });
-            await base.SaveChanges();
+            await SaveChanges();
         }
     }
 }

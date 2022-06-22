@@ -21,5 +21,7 @@ namespace Business.Interfaces.Services
 
         Task<IEnumerable<Account>> GetAll();
 
+        Task<IEnumerable<Account>> GetAccountsByUserId(Guid userId );
+
     }
 }

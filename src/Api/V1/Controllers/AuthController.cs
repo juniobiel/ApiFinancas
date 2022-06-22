@@ -49,7 +49,9 @@ namespace Api.V1.Controllers
 
             if (result.Succeeded)
             {
+                await _userManager.AddToRoleAsync(user, "RegularUsers");
                 await _signInManager.SignInAsync(user, isPersistent: true);
+                
                 return CustomResponse(registerUser);
             }
 
@@ -82,6 +84,13 @@ namespace Api.V1.Controllers
 
             NotifyError("Usuário ou senha incorretos");
             return CustomResponse(loginUser);
+        }
+
+        [HttpGet("sign-out")]
+        public async Task<ActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return CustomResponse(Ok("Você foi desconectado!"));
         }
 
 

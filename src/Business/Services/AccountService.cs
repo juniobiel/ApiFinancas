@@ -9,20 +9,19 @@ namespace Business.Services
     public class AccountService : BaseService, IAccountService
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IUser _appUser;
         public AccountService(IAccountRepository accountRepository,
                                 INotificator notificator,
                                 IUser appUser) : base(notificator)
         {
             _accountRepository = accountRepository;
-            _appUser = appUser;
         }
 
         public async Task Add( Account account )
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
-            if(_accountRepository.Search(a => a.AccountName == account.AccountName).Result.Any())
+            if(_accountRepository.Search(a => a.AccountName == account.AccountName 
+            && a.AccountCreatedByUserId == account.AccountCreatedByUserId).Result.Any())
             {
                 Notify("Já existe uma conta com este nome!");
                 return;
@@ -34,13 +33,8 @@ namespace Business.Services
 
         public async Task Remove( Guid id )
         {
-            if (_accountRepository.GetAccountTransactions(id).Result.Any())
-            {
-                Notify("A conta possui transações cadastradas");
-                return;
-            }
-
-            await _accountRepository.Remove(id);        }
+           await _accountRepository.Remove(id);   
+        }
 
         public async Task Update( Account account )
         {
@@ -54,6 +48,7 @@ namespace Business.Services
             return await _accountRepository.GetAccountById(id);
         }
 
+
         public async Task<IEnumerable<Account>> GetAccountTransactions(Guid id)
         {
             return await _accountRepository.GetAccountTransactions(id);
@@ -62,6 +57,11 @@ namespace Business.Services
         public async Task<IEnumerable<Account>> GetAll()
         {
             return await _accountRepository.GetAll();
+        }
+
+        public async Task<IEnumerable<Account>> GetAccountsByUserId(Guid userId)
+        {
+            return await _accountRepository.GetAccountsByUserId(userId);
         }
 
         public void Dispose()

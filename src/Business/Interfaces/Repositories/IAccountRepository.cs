@@ -8,6 +8,7 @@ namespace Business.Interfaces.Repositories
 
         Task<Account> GetAccountById( Guid id );
 
+        Task<IEnumerable<Account>> GetAccountsByUserId( Guid userId );
         Task Remove( Guid id );
     }
 }

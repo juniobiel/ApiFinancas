@@ -45,6 +45,11 @@ namespace Data.Repository
             return await Db.SaveChangesAsync();
         }
 
+        public virtual void Remove(TEntity entity)
+        {
+            DbSet.Remove(entity);
+        }
+
         public void Dispose()
         {
             Db?.Dispose();

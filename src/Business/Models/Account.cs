@@ -2,11 +2,6 @@
 {
     public class Account : Entity
     {
-        public Account()
-        {
-            AccountId = Guid.NewGuid();
-        }
-
         public Guid AccountId { get; set; }
         public string AccountName { get; set; }
         public decimal AccountBalance { get; set; }

@@ -11,6 +11,7 @@ namespace Business.Interfaces.Repositories
     {
         Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType );
 
+        Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
         Task<Category> GetCategoryById( int id );
 
         Task Remove( int id );

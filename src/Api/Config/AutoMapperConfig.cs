@@ -9,6 +9,7 @@ namespace Api.Config
         public AutoMapperConfig()
         {
             CreateMap<Account, AccountViewModel>().ReverseMap();
+            CreateMap<Category, CategoryViewModel>().ReverseMap();
             CreateMap<Transaction, TransactionViewModel>().ReverseMap();
         }
     }

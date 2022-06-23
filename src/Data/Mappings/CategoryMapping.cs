@@ -10,12 +10,14 @@ namespace Data.Mappings
         {
             builder.HasKey(c => c.CategoryId);
 
+            builder.Property(c => c.CategoryId)
+                .ValueGeneratedOnAdd();
+
             builder.Property(p => p.CategoryName)
                 .HasColumnType("varchar(100)")
                 .IsRequired();
 
             builder.Property(p => p.TransactionType)
-                .HasColumnType("varchar(100)")
                 .IsRequired();
 
             builder.ToTable("Categories");

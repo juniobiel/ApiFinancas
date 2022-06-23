@@ -1,9 +1,9 @@
 ﻿namespace Business.Models
 {
-    public enum TransactionType
+    public enum TransactionType : int
     {
-        Revenue,
-        Expense,
-        Transfer        
+        Revenue = 0,
+        Expense = 1,
+        Transfer = 2       
     }
 }

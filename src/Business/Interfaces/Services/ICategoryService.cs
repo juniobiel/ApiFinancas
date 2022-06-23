@@ -11,6 +11,10 @@ namespace Business.Interfaces.Services
     {
         Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType );
 
+        Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
+
+        Task Add( Category category );
+
         Task<Category> GetCategoryById( int id );
 
         Task Remove( int id );

@@ -1,6 +1,5 @@
 ﻿using Api.Controllers;
 using Api.Extensions;
-using Api.V1.ViewModels;
 using Api.V1.ViewModels.User;
 using Business.Interfaces;
 using Business.Interfaces.Services;
@@ -21,7 +20,6 @@ namespace Api.V1.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-
 
         public AuthController( INotificator notificator, IUser appUser,
             SignInManager<IdentityUser> signInManager,

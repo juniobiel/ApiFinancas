@@ -21,6 +21,12 @@ namespace Data.Repository
             return await Db.Categories.AsNoTracking().FirstOrDefaultAsync(t => t.CategoryId == id);
         }
 
+        public async Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId)
+        {
+            return await Db.Categories.AsNoTracking()
+                .Where(c => c.CategoryCreatedByUserId == userId).ToListAsync();
+        }
+
         public async Task Remove(int id)
         {
             Db.Categories.Remove(new Category { CategoryId = id });

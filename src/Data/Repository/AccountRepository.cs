@@ -17,9 +17,11 @@ namespace Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<Account> GetAccountById(Guid? id)
+        public async Task<Account> GetAccountById(Guid? id, Guid userId)
         {
-            return await Db.Accounts.AsNoTracking().FirstOrDefaultAsync(t => t.AccountId == id);
+            return await Db.Accounts.AsNoTracking()
+                .Where(a => a.AccountCreatedByUserId == userId)
+                .FirstOrDefaultAsync(t => t.AccountId == id);
         }
 
 

@@ -45,7 +45,7 @@ namespace Business.Services
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
-            var accountAux = await _accountRepository.GetAccountById(account.AccountId);
+            var accountAux = await _accountRepository.GetAccountById(account.AccountId, _appUser.GetUserId());
 
             account.AccountCreatedByUserId = accountAux.AccountCreatedByUserId;
             account.CreatedAt = accountAux.CreatedAt;
@@ -59,7 +59,7 @@ namespace Business.Services
 
         public async Task<Account> GetAccountById(Guid? id)
         {
-            return await _accountRepository.GetAccountById(id);
+            return await _accountRepository.GetAccountById(id, _appUser.GetUserId());
         }
 
 

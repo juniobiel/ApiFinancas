@@ -3,6 +3,7 @@ using Api.V1.ViewModels;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Interfaces.Services;
+using Business.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.V1.Controllers
@@ -13,14 +14,22 @@ namespace Api.V1.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly IMapper _mapper;
-        public TransactionsController(INotificator notificator, IUser appUser) : base(notificator, appUser)
+        public TransactionsController( INotificator notificator, IUser appUser, 
+                    ITransactionService transactionService, 
+                    IMapper mapper ) : base(notificator, appUser)
         {
+            _transactionService = transactionService;
+            _mapper = mapper;
         }
 
         [HttpPost("create-transaction")]
-        public  ActionResult CreateTransaction(TransactionViewModel createTransactionViewModel)
+        public  async Task<ActionResult> CreateTransaction(TransactionViewModel createTransactionViewModel)
         {
-            return Ok();
+            if(!ModelState.IsValid) return CustomResponse(ModelState);
+
+            await _transactionService.Add(_mapper.Map<Transaction>(createTransactionViewModel));
+
+            return CustomResponse(createTransactionViewModel);
         }
     }
 }

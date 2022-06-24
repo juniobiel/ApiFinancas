@@ -10,6 +10,9 @@ namespace Data.Mappings
         {
             builder.HasKey(pk => new { pk.TransactionId, pk.AccountId } );
 
+            builder.Property(t => t.TransactionId)
+                .ValueGeneratedOnAdd();
+
             builder.Property(p => p.TransactionType)
                 .IsRequired();
 

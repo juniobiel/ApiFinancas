@@ -10,6 +10,9 @@ namespace Data.Mappings
         {
             builder.HasKey(a => a.AccountId);
 
+            builder.Property(a => a.AccountId)
+                .ValueGeneratedOnAdd();
+
             builder.Property(p => p.AccountName)
                 .IsRequired()
                 .HasColumnType("varchar(100)");
@@ -26,9 +29,6 @@ namespace Data.Mappings
             builder.HasMany(a => a.ReceivedTransactions)
                 .WithOne(t => t.AccountReceiver)
                 .HasForeignKey(t => t.AccountReceiverId);
-
-
-
 
             builder.ToTable("Accounts");
         }

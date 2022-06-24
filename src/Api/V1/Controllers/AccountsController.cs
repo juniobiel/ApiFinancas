@@ -27,8 +27,6 @@ namespace Api.V1.Controllers
         [HttpPost("create-account")]
         public async Task<ActionResult> CreateAccount(AccountViewModel createAccountViewModel)
         {
-            createAccountViewModel.AccountId = Guid.NewGuid();
-
             if (!ModelState.IsValid) return CustomResponse(ModelState);     
 
             await _accountService.Add(_mapper.Map<Account>(createAccountViewModel));

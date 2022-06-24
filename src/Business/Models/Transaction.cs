@@ -2,11 +2,6 @@
 {
     public class Transaction : Entity
     {
-        public Transaction()
-        {
-            TransactionId = Guid.NewGuid();
-        }
-
         public Guid TransactionId { get; set; }
         public Guid AccountId { get; set; }
         public TransactionType TransactionType { get; set; }

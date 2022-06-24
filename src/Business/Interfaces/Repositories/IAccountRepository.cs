@@ -6,7 +6,7 @@ namespace Business.Interfaces.Repositories
     {
         Task<IEnumerable<Account>> GetAccountTransactions( Guid id );
 
-        Task<Account> GetAccountById( Guid? id);
+        Task<Account> GetAccountById( Guid? id, Guid userId);
 
         Task<IEnumerable<Account>> GetAccountsByUserId( Guid userId );
         Task Remove( Guid id );

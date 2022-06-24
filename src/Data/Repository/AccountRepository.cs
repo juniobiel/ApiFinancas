@@ -17,7 +17,7 @@ namespace Data.Repository
                 .ToListAsync();
         }
 
-        public async Task<Account> GetAccountById(Guid id)
+        public async Task<Account> GetAccountById(Guid? id)
         {
             return await Db.Accounts.AsNoTracking().FirstOrDefaultAsync(t => t.AccountId == id);
         }

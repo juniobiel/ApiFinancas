@@ -11,7 +11,6 @@ namespace Data.Mappings
             builder.HasKey(pk => new { pk.TransactionId, pk.AccountId } );
 
             builder.Property(p => p.TransactionType)
-                .HasColumnType("varchar(100)")
                 .IsRequired();
 
             builder.HasOne(t => t.Category)

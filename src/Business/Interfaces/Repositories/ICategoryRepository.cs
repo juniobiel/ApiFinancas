@@ -9,9 +9,8 @@ namespace Business.Interfaces.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType );
-
         Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
+
         Task<Category> GetCategoryById( int id );
 
         Task Remove( int id );

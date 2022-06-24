@@ -11,11 +11,6 @@ namespace Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType )
-        {
-            return await Db.Categories.AsNoTracking().Where(c => c.TransactionType == transactionType).ToListAsync();
-        }
-
         public async Task<Category> GetCategoryById( int id )
         {
             return await Db.Categories.AsNoTracking().FirstOrDefaultAsync(t => t.CategoryId == id);

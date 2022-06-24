@@ -31,9 +31,11 @@ namespace Business.Services
             await _categoryRepository.Add(category);
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType )
+        public async Task Update(Category category)
         {
-            return await _categoryRepository.GetCategoriesByTransactionType(transactionType);
+            if (!ExecuteValidation(new CategoryValidation(), category)) return;
+
+            await _categoryRepository.Update(category);
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId)
@@ -49,6 +51,11 @@ namespace Business.Services
         public Task Remove( int id )
         {
            return _categoryRepository.Remove(id);
+        }
+
+        public void Dispose()
+        {
+            _categoryRepository?.Dispose();
         }
     }
 }

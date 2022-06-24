@@ -1,19 +1,14 @@
 ﻿using Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Interfaces.Services
 {
-    public interface ICategoryService
-    {
-        Task<IEnumerable<Category>> GetCategoriesByTransactionType( TransactionType transactionType );
-
+    public interface ICategoryService : IDisposable
+    {       
         Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
 
         Task Add( Category category );
+
+        Task Update(Category category );
 
         Task<Category> GetCategoryById( int id );
 

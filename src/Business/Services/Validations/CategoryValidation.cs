@@ -8,8 +8,8 @@ namespace Business.Services.Validations
         public CategoryValidation()
         {
             RuleFor(c => c.CategoryName)
-                .MinimumLength(3).MaximumLength(125)
-                .WithMessage("O campo precisa ter entre 3 e 125 caracteres");
+                .MinimumLength(3).MaximumLength(100)
+                .WithMessage("O campo precisa ter entre 3 e 100 caracteres");
 
             RuleFor(c => c.TransactionType)
                 .NotNull()

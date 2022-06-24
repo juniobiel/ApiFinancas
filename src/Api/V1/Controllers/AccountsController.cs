@@ -29,10 +29,7 @@ namespace Api.V1.Controllers
         {
             createAccountViewModel.AccountId = Guid.NewGuid();
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-
-            createAccountViewModel.AccountCreatedByUserId = UserId;
-            createAccountViewModel.CreatedAt = DateTime.Now;            
+            if (!ModelState.IsValid) return CustomResponse(ModelState);     
 
             await _accountService.Add(_mapper.Map<Account>(createAccountViewModel));
 
@@ -52,22 +49,18 @@ namespace Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if(account == null)
+            if (account == null)
             {
                 return NotFound("Não é uma conta válida");
             }
-
-            accountUpdateViewModel.CreatedAt = account.CreatedAt;
-            accountUpdateViewModel.AccountCreatedByUserId = account.AccountCreatedByUserId;
-            accountUpdateViewModel.UpdatedAt = DateTime.Now;
-            accountUpdateViewModel.AccountUpdatedByUserId = UserId;
 
             await _accountService.Update(_mapper.Map<Account>(accountUpdateViewModel));
 
             return StatusCode(200, new 
             { 
                 message = "Conta atualizada com sucesso!", 
-                accountUpdateViewModel 
+                accountUpdateViewModel,
+                account
             });
         }
         

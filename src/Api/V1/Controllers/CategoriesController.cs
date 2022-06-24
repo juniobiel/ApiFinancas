@@ -59,9 +59,72 @@ namespace Api.V1.Controllers
             return result.Where(t => t.TransactionType == 1);
         }
 
+        [HttpPut("edit/{categoryId:int}")]
+        public async Task<ActionResult> EditCategory(int categoryId, CategoryViewModel categoryEditViewModel)
+        {
+            if(categoryId != categoryEditViewModel.CategoryId)
+            {
+                NotifyError("O ID informado é invalido");
+                return CustomResponse(categoryEditViewModel);
+            }
+
+            var category = await GetCategoryById(categoryId);
+
+            if (!ModelState.IsValid) return CustomResponse(categoryEditViewModel);
+
+            if(category == null)
+            {
+                return NotFound("Não é uma categoria válida!");
+            }
+
+            if(category.TransactionType != (TransactionType) categoryEditViewModel.TransactionType)
+            {
+                return BadRequest("Não é possível alterar o tipo de transação vinculado a esta categoria");
+            }
+
+            categoryEditViewModel.UpdatedAt = DateTime.Now;
+            categoryEditViewModel.CategoryUpdatedByUserId = UserId;
+
+            categoryEditViewModel.CategoryCreatedByUserId = category.CategoryCreatedByUserId;
+            categoryEditViewModel.CreatedAt = category.CreatedAt;
+
+
+
+            await _categoryService.Update(_mapper.Map<Category>(categoryEditViewModel));
+
+            return StatusCode(200, new
+            {
+                message = "Categoria atualizada com sucesso!",
+                categoryEditViewModel
+            });
+        }
+
+        [HttpDelete("delete/{categoryId:int}")]
+        public async Task<ActionResult> DeleteCategory(int categoryId)
+        {
+            var category = await GetCategoryById(categoryId);
+
+            if (category == null) return NotFound("Não foi possível excluir a categoria selecionada");
+
+            await _categoryService.Remove(categoryId);
+            return StatusCode(202, "A categoria foi excluída!");
+        }
+
         private async Task<IEnumerable<Category>> GetCategoriesByUserId()
         {
             return await _categoryService.GetCategoriesByUserId(UserId);
+        }
+
+        private async Task<Category> GetCategoryById(int categoryId)
+        {
+            var category = await _categoryService.GetCategoryById(categoryId);
+
+            if(category.CategoryCreatedByUserId != UserId)
+            {
+                return null;
+            }
+
+            return category;
         }
     }
 }

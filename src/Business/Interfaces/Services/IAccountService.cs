@@ -15,7 +15,7 @@ namespace Business.Interfaces.Services
 
         Task Remove( Guid id );
 
-        Task<Account> GetAccountById( Guid id );
+        Task<Account> GetAccountById( Guid? id );
 
         Task<IEnumerable<Account>> GetAccountTransactions( Guid id );
 

@@ -9,11 +9,13 @@ namespace Business.Services
     public class AccountService : BaseService, IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IUser _appUser;
         public AccountService(IAccountRepository accountRepository,
                                 INotificator notificator,
                                 IUser appUser) : base(notificator)
         {
             _accountRepository = accountRepository;
+            _appUser = appUser;
         }
 
         public async Task Add( Account account )
@@ -26,6 +28,9 @@ namespace Business.Services
                 Notify("Já existe uma conta com este nome!");
                 return;
             }
+
+            account.AccountCreatedByUserId = _appUser.GetUserId();
+            account.CreatedAt = DateTime.Now;
 
             await _accountRepository.Add(account);
         }
@@ -40,10 +45,19 @@ namespace Business.Services
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
+            var accountAux = await _accountRepository.GetAccountById(account.AccountId);
+
+            account.AccountCreatedByUserId = accountAux.AccountCreatedByUserId;
+            account.CreatedAt = accountAux.CreatedAt;
+
+            account.UpdatedAt = DateTime.Now;
+            account.AccountUpdatedByUserId = _appUser.GetUserId();
+            
+
             await _accountRepository.Update(account);
         }
 
-        public async Task<Account> GetAccountById(Guid id)
+        public async Task<Account> GetAccountById(Guid? id)
         {
             return await _accountRepository.GetAccountById(id);
         }

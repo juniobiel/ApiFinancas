@@ -27,10 +27,10 @@ namespace Api.V1.Controllers
         [HttpPost("create-category")]
         public async Task<ActionResult> CreateCategory(CategoryViewModel newCategoryViewModel)
         {
-            if(!ModelState.IsValid) return CustomResponse(ModelState);
+            if (!UserAuthenticated)
+                return BadRequest("Efetue o login novamente!");
 
-            newCategoryViewModel.CategoryCreatedByUserId = UserId;
-            newCategoryViewModel.CreatedAt = DateTime.Now;
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _categoryService.Add(_mapper.Map<Category>(newCategoryViewModel));
 
@@ -40,13 +40,13 @@ namespace Api.V1.Controllers
         [HttpGet("list")]
         public async Task<IEnumerable<CategoryViewModel>> ListCategories()
         {
-            return _mapper.Map<IEnumerable<CategoryViewModel>>(await GetCategoriesByUserId());
+            return _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryService.GetCategories());
         }
 
         [HttpGet("revenue-categories")]
         public async Task<IEnumerable<CategoryViewModel>> ListCategoriesByRevenueType()
         {
-            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(await GetCategoriesByUserId());
+            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryService.GetCategories());
 
             return result.Where(t => t.TransactionType == 0);
         }
@@ -54,21 +54,15 @@ namespace Api.V1.Controllers
         [HttpGet("expense-categories")]
         public async Task<IEnumerable<CategoryViewModel>> ListCategoriesByExpenseType()
         {
-            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(await GetCategoriesByUserId());
+            var result = _mapper.Map<IEnumerable<CategoryViewModel>>(await _categoryService.GetCategories());
 
             return result.Where(t => t.TransactionType == 1);
         }
 
-        [HttpPut("edit/{categoryId:int}")]
-        public async Task<ActionResult> EditCategory(int categoryId, CategoryViewModel categoryEditViewModel)
+        [HttpPut("edit")]
+        public async Task<ActionResult> EditCategory(CategoryViewModel categoryEditViewModel)
         {
-            if(categoryId != categoryEditViewModel.CategoryId)
-            {
-                NotifyError("O ID informado é invalido");
-                return CustomResponse(categoryEditViewModel);
-            }
-
-            var category = await GetCategoryById(categoryId);
+            var category = await _categoryService.GetCategoryById((int) categoryEditViewModel.CategoryId);
 
             if (!ModelState.IsValid) return CustomResponse(categoryEditViewModel);
 
@@ -82,14 +76,6 @@ namespace Api.V1.Controllers
                 return BadRequest("Não é possível alterar o tipo de transação vinculado a esta categoria");
             }
 
-            categoryEditViewModel.UpdatedAt = DateTime.Now;
-            categoryEditViewModel.CategoryUpdatedByUserId = UserId;
-
-            categoryEditViewModel.CategoryCreatedByUserId = category.CategoryCreatedByUserId;
-            categoryEditViewModel.CreatedAt = category.CreatedAt;
-
-
-
             await _categoryService.Update(_mapper.Map<Category>(categoryEditViewModel));
 
             return StatusCode(200, new
@@ -102,29 +88,12 @@ namespace Api.V1.Controllers
         [HttpDelete("delete/{categoryId:int}")]
         public async Task<ActionResult> DeleteCategory(int categoryId)
         {
-            var category = await GetCategoryById(categoryId);
+            var category = await _categoryService.GetCategoryById(categoryId);
 
             if (category == null) return NotFound("Não foi possível excluir a categoria selecionada");
 
             await _categoryService.Remove(categoryId);
             return StatusCode(202, "A categoria foi excluída!");
-        }
-
-        private async Task<IEnumerable<Category>> GetCategoriesByUserId()
-        {
-            return await _categoryService.GetCategoriesByUserId(UserId);
-        }
-
-        private async Task<Category> GetCategoryById(int categoryId)
-        {
-            var category = await _categoryService.GetCategoryById(categoryId);
-
-            if(category.CategoryCreatedByUserId != UserId)
-            {
-                return null;
-            }
-
-            return category;
         }
     }
 }

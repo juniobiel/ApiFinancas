@@ -9,9 +9,9 @@ namespace Business.Interfaces.Repositories
 {
     public interface ICategoryRepository : IRepository<Category>
     {
-        Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
+        Task<IEnumerable<Category>> GetCategoriesUser(Guid userId);
 
-        Task<Category> GetCategoryById( int id );
+        Task<Category> GetCategoryUserById(Guid userId, int id );
 
         Task Remove( int id );
     }

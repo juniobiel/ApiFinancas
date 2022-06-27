@@ -9,15 +9,7 @@ namespace Data.Repository
     {
         public AccountRepository(FinanceDbContext context) : base(context) { }
 
-        public async Task<IEnumerable<Account>> GetAccountTransactions(Guid id)
-        {
-            return await Db.Accounts.AsNoTracking()
-                .Include(t => t.Transactions)
-                .Where(t => t.AccountId == id)
-                .ToListAsync();
-        }
-
-        public async Task<Account> GetAccountById(Guid? id, Guid userId)
+        public async Task<Account> GetAccountUserById(Guid userId, Guid? id )
         {
             return await Db.Accounts.AsNoTracking()
                 .Where(a => a.AccountCreatedByUserId == userId)
@@ -25,7 +17,7 @@ namespace Data.Repository
         }
 
 
-        public async Task<IEnumerable<Account>> GetAccountsByUserId(Guid userId)
+        public async Task<IEnumerable<Account>> GetUserAccounts( Guid userId)
         {
             return await Db.Accounts.AsNoTracking()
                 .Where(a => a.AccountCreatedByUserId == userId)

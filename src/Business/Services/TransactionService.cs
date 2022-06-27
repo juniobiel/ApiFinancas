@@ -117,15 +117,174 @@ namespace Business.Services
 
                 default:
                     base.Notify("Não foi possível completar esta operação!");
-                    break;
+                    return;
             }
 
             await _transactionRepository.Add( transaction );
+        }
+
+        public async Task Update( Transaction transaction )
+        {
+            var transactionAux = await GetTransactionById(transaction.TransactionId);
+
+            transaction.TransactionCreatedByUserId = transactionAux.TransactionCreatedByUserId;
+            transaction.CreatedAt = transactionAux.CreatedAt;
+
+            transaction.TransactionUpdatedByUserId = _appUser.GetUserId();
+            transaction.UpdatedAt = DateTime.Now;
+
+            if (transaction == null)
+            {
+                base.Notify("O ID é inválido!");
+                return;
+            }
+
+            if(transaction.TransactionType != transactionAux.TransactionType)
+            {
+                base.Notify("Não é possível editar o tipo da transação");
+                return;
+            }
+
+            var category = await _categoryService.GetCategoryById((int) transaction.CategoryId);
+
+            if (category == null)
+            {
+                base.Notify("Não foi possível alterar para a categoria selecionada");
+                return;
+            }
+
+            if(category.TransactionType != transaction.TransactionType)
+            {
+                base.Notify("Esta categoria não é permitida para este tipo de operação");
+                return;
+            }
+
+            var account = await _accountService.GetAccountById(transaction.AccountId);
+
+            if (account == null)
+            {
+                base.Notify("A conta selecionada não é valida!");
+                return;
+            }
+
+
+            switch(transaction.TransactionType)
+            {
+                case TransactionType.Revenue:
+
+                    if(transaction.Value != transactionAux.Value)
+                    {
+                        if (transaction.AccountId != transactionAux.AccountId)
+                        {
+                            var accountAux = await _accountService.GetAccountById(transactionAux.AccountId);
+
+                            accountAux.AccountBalance -= transactionAux.Value;
+                            account.AccountBalance += transaction.Value;
+
+                            await _accountService.Update(account);
+                            await _accountService.Update(accountAux);
+                        }
+
+                        account.AccountBalance -= transactionAux.Value;
+                        account.AccountBalance += transaction.Value;
+
+                        await _accountService.Update(account);
+                    }
+
+                    break;
+
+                case TransactionType.Expense:
+
+                    if (transaction.Value != transactionAux.Value)
+                    {
+                        if (transaction.AccountId != transactionAux.AccountId)
+                        {
+                            var accountAux = await _accountService.GetAccountById(transactionAux.AccountId);
+
+                            accountAux.AccountBalance += transactionAux.Value;
+                            account.AccountBalance -= transaction.Value;
+
+                            await _accountService.Update(account);
+                            await _accountService.Update(accountAux);
+                        }
+
+                        account.AccountBalance -= transactionAux.Value;
+                        account.AccountBalance += transaction.Value;
+
+                        await _accountService.Update(account);
+                    }
+
+                    break;
+
+                case TransactionType.Transfer:
+                    //valor diferente
+                    if (transaction.Value != transactionAux.Value)
+                    {
+                        //Conta origem diferente
+                        if (transaction.AccountId != transactionAux.AccountId)
+                        {
+                            var accountAux = await _accountService.GetAccountById(transactionAux.AccountId);
+
+                            accountAux.AccountBalance += transactionAux.Value;
+                            account.AccountBalance -= transaction.Value;
+
+                            await _accountService.Update(accountAux);
+                            await _accountService.Update(account);
+                        }
+
+                        //conta de destino diferente
+                        if(transaction.AccountReceiverId != transactionAux.AccountReceiverId)
+                        {
+                            var destinationAccount = await _accountService.GetAccountById(transaction.AccountReceiverId);
+                            var destinationAccountAux = await _accountService.GetAccountById(transactionAux.AccountReceiverId);
+
+                            destinationAccountAux.AccountBalance -= transaction.Value;
+                            destinationAccount.AccountBalance += transaction.Value;
+
+                            await _accountService.Update(destinationAccountAux);
+                            await _accountService.Update(destinationAccount);
+
+                        }
+
+                        account.AccountBalance -= transactionAux.Value;
+                        account.AccountBalance += transaction.Value;
+
+                        await _accountService.Update(account);
+                    }
+
+                    break;
+
+                default:
+                    base.Notify("Não consegui atualizar os dados da transferência");
+                    return;
+            }
+
+            await _transactionRepository.Update(transaction);
+        }
+
+        public async Task<IEnumerable<Transaction>> GetTransactions()
+        {
+            return await _transactionRepository.GetUserTransactions(_appUser.GetUserId());
+        }
+
+        public async Task<IEnumerable<Transaction>> GetUserTransactionsByPeriod( DateTime? initialDate, DateTime? finalDate )
+        {
+            if(initialDate == null || finalDate == null)
+            {
+                base.Notify("Não é possível filtrar o período selecionado");
+            }
+            
+            return await _transactionRepository.GetUserTransactionsByPeriod(_appUser.GetUserId(), initialDate, finalDate);
+        }
+        public async Task<Transaction> GetTransactionById( Guid transactionId )
+        {
+            return await _transactionRepository.GetUserTransactionById(_appUser.GetUserId(), transactionId);
         }
 
         public void Dispose()
         {
             _transactionRepository?.Dispose();
         }
+
     }
 }

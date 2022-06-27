@@ -27,6 +27,9 @@ namespace Api.V1.Controllers
         [HttpPost("create-account")]
         public async Task<ActionResult> CreateAccount(AccountViewModel createAccountViewModel)
         {
+            if (!UserAuthenticated)
+                return BadRequest("Efetue o login novamente!");
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);     
 
             await _accountService.Add(_mapper.Map<Account>(createAccountViewModel));
@@ -34,16 +37,10 @@ namespace Api.V1.Controllers
             return CustomResponse(createAccountViewModel);
         }
 
-        [HttpPut("edit/{accountId:guid}")]
-        public async Task<ActionResult> EditAccount(Guid accountId, AccountViewModel accountUpdateViewModel)
+        [HttpPut("edit")]
+        public async Task<ActionResult> EditAccount(AccountViewModel accountUpdateViewModel)
         {
-            if(accountId != accountUpdateViewModel.AccountId)
-            {
-                NotifyError("O ID informado é inválido");
-                return CustomResponse(accountUpdateViewModel);
-            }
-
-            var account = await GetAccountByUserId(accountId);
+            var account = await _accountService.GetAccountById(accountUpdateViewModel.AccountId);
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
@@ -63,33 +60,20 @@ namespace Api.V1.Controllers
         }
         
         [HttpGet("list")]
-        public async Task<IEnumerable<AccountViewModel>> ListAll()
+        public async Task<IEnumerable<AccountViewModel>> ListAccounts()
         {
-            return _mapper.Map<IEnumerable<AccountViewModel>>(await _accountService.GetAccountsByUserId(UserId));
+            return _mapper.Map<IEnumerable<AccountViewModel>>(await _accountService.GetAccounts());
         }
 
         [HttpDelete("delete/{accountId:guid}")]
         public async Task<ActionResult> DeleteAccount(Guid accountId)
         {
-            var account = await GetAccountByUserId(accountId);
+            var account = await _accountService.GetAccountById(accountId);
 
             if (account == null) return NotFound("Não foi possível excluir a conta selicionada");
 
             await _accountService.Remove(accountId);
             return StatusCode(202, "A conta foi excluída!");
-        }
-
-
-        private async Task<Account> GetAccountByUserId(Guid accountId)
-        {
-            var account = await _accountService.GetAccountById(accountId);
-
-            if (account.AccountCreatedByUserId != UserId)
-            {
-                return null;
-            }
-
-            return account;
         }
     }
 }

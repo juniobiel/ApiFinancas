@@ -11,37 +11,25 @@ namespace Data.Repository
     {
         public TransactionRepository( FinanceDbContext context ) : base(context) { }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsByAccount( Guid accountId )
-        {
-            return (IEnumerable<Transaction>)await Db.Transactions.AsNoTracking()
-                                                .Include(a => a.Account)
-                                                .FirstOrDefaultAsync(t => t.AccountId == accountId);
-        }
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsByCategoryId( int categoryId )
-        {
-            return (IEnumerable<Transaction>)await Db.Transactions.AsNoTracking()
-                                               .Include(c => c.Category)
-                                               .FirstOrDefaultAsync(t => t.CategoryId == categoryId);
-        }
-
-        public async Task<IEnumerable<Transaction>> GetTransactionsByDate( DateTime date )
+        public async Task<IEnumerable<Transaction>> GetUserTransactions(Guid userId)
         {
             return await Db.Transactions.AsNoTracking()
-                            .Where(t => t.TransactionDate == date)
-                            .ToListAsync();
+                .Where(t => t.TransactionCreatedByUserId == userId).ToListAsync();
         }
 
-        public async Task<Transaction> GetTransactionById( Guid id )
-        {
-            return await Db.Transactions.AsNoTracking().FirstOrDefaultAsync(t => t.TransactionId == id);
-        }
-
-        public async Task<IEnumerable<Transaction>> GetTransactionsByTransactionType( TransactionType transactionType )
+        public async Task<IEnumerable<Transaction>> GetUserTransactionsByPeriod(Guid userId, DateTime? initialDate, DateTime? finalDate )
         {
             return await Db.Transactions.AsNoTracking()
-                            .Where(t => t.TransactionType == transactionType)
-                            .ToListAsync();
+                .Where(t => t.TransactionCreatedByUserId == userId
+                && t.TransactionDate >= initialDate
+                && t.TransactionDate <= finalDate).ToListAsync();
+        }
+        public async Task<Transaction> GetUserTransactionById( Guid userId, Guid transactionId )
+        {
+            return await Db.Transactions.AsNoTracking()
+                .Where(t => t.TransactionCreatedByUserId == userId)
+                .FirstOrDefaultAsync(t => t.TransactionId == transactionId);
         }
 
         public async Task Remove(Guid id)
@@ -50,10 +38,5 @@ namespace Data.Repository
             await base.SaveChanges();
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransferReceivedByAccount(Guid accountId)
-        {
-            return await Db.Transactions.AsNoTracking()
-                .Where(a => a.AccountReceiverId == accountId).ToListAsync();
-        }
     }
 }

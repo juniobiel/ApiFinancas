@@ -4,7 +4,7 @@ namespace Business.Interfaces.Services
 {
     public interface ICategoryService : IDisposable
     {       
-        Task<IEnumerable<Category>> GetCategoriesByUserId(Guid userId);
+        Task<IEnumerable<Category>> GetCategories();
 
         Task Add( Category category );
 

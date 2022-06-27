@@ -22,60 +22,46 @@ namespace Business.Services
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
-            if(_accountRepository.Search(a => a.AccountName == account.AccountName 
+            account.AccountCreatedByUserId = _appUser.GetUserId();
+            account.CreatedAt = DateTime.Now;
+
+            if (_accountRepository.Search(a => a.AccountName == account.AccountName 
             && a.AccountCreatedByUserId == account.AccountCreatedByUserId).Result.Any())
             {
                 Notify("Já existe uma conta com este nome!");
                 return;
             }
 
-            account.AccountCreatedByUserId = _appUser.GetUserId();
-            account.CreatedAt = DateTime.Now;
-
             await _accountRepository.Add(account);
-        }
-
-
-        public async Task Remove( Guid id )
-        {
-           await _accountRepository.Remove(id);   
         }
 
         public async Task Update( Account account )
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
-            var accountAux = await _accountRepository.GetAccountById(account.AccountId, _appUser.GetUserId());
+            var accountAux = await _accountRepository.GetAccountUserById(_appUser.GetUserId(), account.AccountId);
 
             account.AccountCreatedByUserId = accountAux.AccountCreatedByUserId;
             account.CreatedAt = accountAux.CreatedAt;
 
             account.UpdatedAt = DateTime.Now;
             account.AccountUpdatedByUserId = _appUser.GetUserId();
-            
 
             await _accountRepository.Update(account);
         }
 
         public async Task<Account> GetAccountById(Guid? id)
         {
-            return await _accountRepository.GetAccountById(id, _appUser.GetUserId());
+            return await _accountRepository.GetAccountUserById(_appUser.GetUserId(), id);
         }
 
-
-        public async Task<IEnumerable<Account>> GetAccountTransactions(Guid id)
+        public async Task<IEnumerable<Account>> GetAccounts()
         {
-            return await _accountRepository.GetAccountTransactions(id);
+            return await _accountRepository.GetUserAccounts(_appUser.GetUserId());
         }
-
-        public async Task<IEnumerable<Account>> GetAll()
+        public async Task Remove( Guid id )
         {
-            return await _accountRepository.GetAll();
-        }
-
-        public async Task<IEnumerable<Account>> GetAccountsByUserId(Guid userId)
-        {
-            return await _accountRepository.GetAccountsByUserId(userId);
+           await _accountRepository.Remove(id);   
         }
 
         public void Dispose()

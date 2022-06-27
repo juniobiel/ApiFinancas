@@ -4,11 +4,8 @@ namespace Business.Interfaces.Repositories
 {
     public interface IAccountRepository : IRepository<Account>
     {
-        Task<IEnumerable<Account>> GetAccountTransactions( Guid id );
-
-        Task<Account> GetAccountById( Guid? id, Guid userId);
-
-        Task<IEnumerable<Account>> GetAccountsByUserId( Guid userId );
+        Task<Account> GetAccountUserById(  Guid userId, Guid? id );
+        Task<IEnumerable<Account>> GetUserAccounts(Guid userId);
         Task Remove( Guid id );
     }
 }

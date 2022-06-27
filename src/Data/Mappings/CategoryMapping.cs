@@ -21,6 +21,8 @@ namespace Data.Mappings
                 .IsRequired();
 
             builder.ToTable("Categories");
+            
+            
         }
     }
 }

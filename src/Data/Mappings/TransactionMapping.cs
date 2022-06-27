@@ -18,7 +18,8 @@ namespace Data.Mappings
 
             builder.HasOne(t => t.Category)
                 .WithMany(c => c.Transactions)
-                .HasForeignKey(c => c.CategoryId);
+                .HasForeignKey(c => c.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(p => p.Value)
                 .IsRequired();

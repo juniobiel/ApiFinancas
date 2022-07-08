@@ -33,17 +33,28 @@ namespace Business.Services
                 {
                     StockTicker = stockPurchase.StockTicker,
                     InitialPrice = stockPurchase.StockPrice,
-                    InitialDate = DateTime.Now,
+                    InitialDate = stockPurchase.PurchaseDate,
+                    StockQt = stockPurchase.StockQt
                 };
 
                 stockPurchase.StockId = await _stockService.Add(stock);
             }
+            else
+            {
+                stockPurchase.StockId = stock.StockId;
+                stock.StockQt += stockPurchase.StockQt;
+                await _stockService.Update(stock);
+            }
 
+            stockPurchase.UserId_Created = _appUser.GetUserId();
+            stockPurchase.CreatedAt = DateTime.Now;
+
+            await _stockPurchaseRepository.Add(stockPurchase);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _stockPurchaseRepository?.Dispose();
         }
     }
 }

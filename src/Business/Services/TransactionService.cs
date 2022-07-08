@@ -128,10 +128,6 @@ namespace Business.Services
             return await _transactionRepository.GetUserTransactionById(_appUser.GetUserId(), transactionId);
         }
 
-        public void Dispose()
-        {
-            _transactionRepository?.Dispose();
-        }
 
         private async Task TransactionAddingValidation( Transaction transaction, Account account )
         {
@@ -309,6 +305,10 @@ namespace Business.Services
                     base.Notify("Não consegui atualizar os dados da transferência");
                     return;
             }
+        }
+        public void Dispose()
+        {
+            _transactionRepository?.Dispose();
         }
     }
 }

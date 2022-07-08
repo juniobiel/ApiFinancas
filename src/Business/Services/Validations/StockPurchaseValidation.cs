@@ -11,7 +11,7 @@ namespace Business.Services.Validations
                 .GreaterThan(0)
                 .WithMessage("O preço precisa ser maior que 0");
 
-            RuleFor(s => s.StockQtd)
+            RuleFor(s => s.StockQt)
                 .GreaterThan(0)
                 .WithMessage("A quantidade precisa ser maior que 0");
 

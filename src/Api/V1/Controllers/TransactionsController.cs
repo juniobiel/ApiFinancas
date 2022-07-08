@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.V1.Controllers
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/transactions")]
+    [Route("api/v{version:apiVersion}/Transactions")]
     public class TransactionsController : MainController
     {
         private readonly ITransactionService _transactionService;

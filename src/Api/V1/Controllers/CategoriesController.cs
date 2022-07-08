@@ -11,7 +11,7 @@ namespace Api.V1.Controllers
 {
     [Authorize(Roles = "RegularUsers")]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/categories")]
+    [Route("api/v{version:apiVersion}/Categories")]
     public class CategoriesController : MainController
     {
         private readonly ICategoryService _categoryService;

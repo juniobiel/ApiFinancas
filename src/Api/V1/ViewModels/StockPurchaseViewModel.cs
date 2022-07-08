@@ -5,7 +5,7 @@ namespace Api.V1.ViewModels
     public class StockPurchaseViewModel
     {
         [Key]
-        public Guid StockPurchaseId { get; set; } = Guid.Empty;
+        public Guid? StockPurchaseId { get; set; }
         public int? StockId { get; set; }
 
         [Required(ErrorMessage = "O Ticker precisa ser informado")]
@@ -16,7 +16,7 @@ namespace Api.V1.ViewModels
 
         [Required(ErrorMessage = "O valor precisa ser maior que 0")]
         [Range(1, 9999)]
-        public int StockQtd { get; set; }
+        public int StockQt { get; set; }
 
         [Required(ErrorMessage = "O valor precisa ser maior que 0")]
         [Range(0.01, 9999)]

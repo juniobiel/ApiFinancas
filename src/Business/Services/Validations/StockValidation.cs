@@ -17,8 +17,6 @@ namespace Business.Services.Validations
                 .NotNull()
                 .GreaterThan(0)
                 .WithMessage("Insira uma quantidade maior que 0");
-
-
         }
     }
 }

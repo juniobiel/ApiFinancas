@@ -11,7 +11,7 @@ namespace Api.V1.Controllers
 {
     [Authorize(Roles = "RegularUsers")]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/accounts")]
+    [Route("api/v{version:apiVersion}/Accounts")]
     public class AccountsController : MainController
     {
         private readonly IAccountService _accountService;

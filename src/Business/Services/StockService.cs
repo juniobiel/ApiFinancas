@@ -2,6 +2,7 @@
 using Business.Interfaces.Repositories;
 using Business.Interfaces.Services;
 using Business.Models;
+using Business.Services.Validations;
 
 namespace Business.Services
 {
@@ -18,9 +19,24 @@ namespace Business.Services
             _appUser = appUser;
         }
 
-        public Task Add( Stock stock )
+        public async Task<int> Add( Stock stock )
+        {
+            if (!ExecuteValidation(new StockValidation(), stock)) return 0;
+
+            stock.UserId_Created = _appUser.GetUserId();
+            stock.CreatedAt = DateTime.Now;
+
+            return (await _stockRepository.Add(_appUser.GetUserId(), stock)).StockId;
+        }
+
+        public async Task Update(Stock stock)
         {
             if (!ExecuteValidation(new StockValidation(), stock)) return;
+
+            stock.UserId_Updated = _appUser.GetUserId();
+            stock.UpdatedAt = DateTime.Now;
+
+            await _stockRepository.Update(stock);
         }
 
         public async Task<Stock> GetStockByTicker( string ticker )
@@ -30,7 +46,7 @@ namespace Business.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _stockRepository?.Dispose();
         }
     }
 }

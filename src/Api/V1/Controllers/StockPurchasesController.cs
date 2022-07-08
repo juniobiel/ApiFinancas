@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.V1.Controllers
 {
-    [ApiVersion("api/v{version:apiVersion}/StockPurchase")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/StockPurchase")]
     public class StockPurchasesController : MainController
     {
         private readonly IMapper _mapper;

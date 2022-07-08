@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace Business.Services.Validations
 {
-    public class StockPurchaseValidation : AbstractValidator<StockPurchase>
+    public class StockTransactionValidation : AbstractValidator<StockTransaction>
     {
-        public StockPurchaseValidation()
+        public StockTransactionValidation()
         {
             RuleFor(s => s.StockPrice)
                 .GreaterThan(0)
@@ -21,7 +21,7 @@ namespace Business.Services.Validations
                 .MinimumLength(3)
                 .WithMessage("Descreva o Ticker com até 7 caracteres");
 
-            RuleFor(s => s.PurchaseDate)
+            RuleFor(s => s.TransactionDate)
                 .NotEmpty().NotNull()
                 .WithMessage("Defina a data da compra");
         }

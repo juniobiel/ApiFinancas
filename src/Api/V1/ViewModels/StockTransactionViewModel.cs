@@ -2,10 +2,10 @@
 
 namespace Api.V1.ViewModels
 {
-    public class StockPurchaseViewModel
+    public class StockTransactionViewModel
     {
         [Key]
-        public Guid? StockPurchaseId { get; set; }
+        public Guid? StockTransactionId { get; set; }
         public int? StockId { get; set; }
 
         [Required(ErrorMessage = "O Ticker precisa ser informado")]
@@ -20,9 +20,13 @@ namespace Api.V1.ViewModels
 
         [Required(ErrorMessage = "O valor precisa ser maior que 0")]
         [Range(0.01, 9999)]
-        public decimal PurchaseTaxes { get; set; }
+        public decimal TransactionTaxes { get; set; }
 
         [Required(ErrorMessage = "Insira a data da compra")]
-        public DateTime PurchaseDate { get; set; }
+        public DateTime TransactionDate { get; set; }
+
+        [Required(ErrorMessage = "É necessário selecionar se é uma compra ou uma venda")]
+        [Range(3,4)]
+        public int TransactionType { get; set; }
     }
 }

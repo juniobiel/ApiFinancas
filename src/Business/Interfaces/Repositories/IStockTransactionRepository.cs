@@ -2,7 +2,7 @@
 
 namespace Business.Interfaces.Repositories
 {
-    public interface IStockPurchaseRepository : IRepository<StockPurchase>
+    public interface IStockTransactionRepository : IRepository<StockTransaction>
     {
     }
 }

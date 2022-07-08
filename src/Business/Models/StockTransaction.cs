@@ -1,14 +1,15 @@
 ﻿namespace Business.Models
 {
-    public class StockPurchase : Entity
+    public class StockTransaction : Entity
     {
-        public Guid StockPurchaseId { get; set; }
+        public Guid StockTransactionId { get; set; }
         public int StockId { get; set; }
         public string StockTicker { get; set; }
         public decimal StockPrice { get; set; }
         public int StockQt { get; set; }
-        public decimal PurchaseTaxes { get; set; }
-        public DateTime PurchaseDate { get; set; }
+        public decimal TransactionTaxes { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public TransactionType TransactionType { get; set; }
 
         public Guid UserId_Created { get; set; }
         public DateTime CreatedAt { get; set; }

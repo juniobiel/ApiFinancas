@@ -37,8 +37,8 @@ namespace Api.Config
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IStockRepository, StockRepository>();
 
-            services.AddScoped<IStockPurchaseService, StockPurchaseService>();
-            services.AddScoped<IStockPurchaseRepository, StockPurchaseRepository>();
+            services.AddScoped<IStockTransactionService, StockTransactionService>();
+            services.AddScoped<IStockTransactionRepository, StockTransactionRepository>();
 
             return services;
         }

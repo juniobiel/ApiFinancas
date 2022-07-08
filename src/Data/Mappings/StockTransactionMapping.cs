@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Mappings
 {
-    public class StockPurchaseMapping : IEntityTypeConfiguration<StockPurchase>
+    public class StockTransactionMapping : IEntityTypeConfiguration<StockTransaction>
     {
-        public void Configure( EntityTypeBuilder<StockPurchase> builder )
+        public void Configure( EntityTypeBuilder<StockTransaction> builder )
         {
-            builder.HasKey(s => s.StockPurchaseId);
+            builder.HasKey(s => s.StockTransactionId);
 
-            builder.Property(s => s.StockPurchaseId)
+            builder.Property(s => s.StockTransactionId)
                 .ValueGeneratedOnAdd();
 
             builder.Property(s => s.StockTicker)
                 .HasMaxLength(7)
                 .HasColumnType("varchar(7)");
 
-            builder.Property(s => s.PurchaseTaxes)
+            builder.Property(s => s.TransactionTaxes)
                 .IsRequired();
 
             builder.Property(s => s.StockQt)
@@ -26,14 +26,17 @@ namespace Data.Mappings
             builder.Property(s => s.StockPrice)
                 .IsRequired();
 
-            builder.Property(s => s.PurchaseDate)
+            builder.Property(s => s.TransactionDate)
+                .IsRequired();
+
+            builder.Property(s => s.TransactionType)
                 .IsRequired();
 
             builder.HasOne(s => s.Stock)
                 .WithMany(s => s.StockPurchases)
                 .HasForeignKey(s => s.StockId);
 
-            builder.ToTable("Stock_Purchases");
+            builder.ToTable("Stock_Transactions");
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.V2.Controllers
 {
     [Authorize(Roles = "RegularUsers")]
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/categories")]
     public class CategoriesController : MainController
     {

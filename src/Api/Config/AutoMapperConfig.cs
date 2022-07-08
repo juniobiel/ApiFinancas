@@ -12,7 +12,7 @@ namespace Api.Config
             CreateMap<Account, AccountViewModel>().ReverseMap();
             CreateMap<Category, CategoryViewModel>().ReverseMap();
             CreateMap<Transaction, TransactionViewModel>().ReverseMap();
-            CreateMap<StockPurchase, StockPurchaseViewModel>().ReverseMap();
+            CreateMap<StockTransaction, StockTransactionViewModel>().ReverseMap();
         }
     }
 }

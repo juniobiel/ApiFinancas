@@ -1,5 +1,4 @@
-﻿using Api.Controllers;
-using Api.Extensions;
+﻿using Api.Extensions;
 using Api.V1.ViewModels.User;
 using Business.Interfaces;
 using Business.Interfaces.Services;
@@ -11,9 +10,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Api.V1.Controllers
+namespace Api.Controllers
 {
-    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {
@@ -98,11 +96,11 @@ namespace Api.V1.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Sub, user.Id));
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Email, user.Email));
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString(),
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString(),
                 ClaimValueTypes.Integer64));
 
             foreach (var userRole in userRoles)

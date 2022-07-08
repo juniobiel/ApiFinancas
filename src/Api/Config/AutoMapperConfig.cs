@@ -1,4 +1,5 @@
 ﻿using Api.V1.ViewModels;
+using Api.V2.ViewModels;
 using AutoMapper;
 using Business.Models;
 

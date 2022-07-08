@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Api.V1.ViewModels
+namespace Api.V2.ViewModels
 {
     public class TransactionViewModel
     {

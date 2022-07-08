@@ -1,15 +1,17 @@
 ﻿using Api.Controllers;
-using Api.V1.ViewModels;
+using Api.V2.ViewModels;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Interfaces.Services;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.V1.Controllers
+namespace Api.V2.Controllers
 {
-    [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Transactions")]
+    [Authorize(Roles = "RegularUsers")]
+    [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/transactions")]
     public class TransactionsController : MainController
     {
         private readonly ITransactionService _transactionService;

@@ -1,5 +1,5 @@
 ﻿using Api.Controllers;
-using Api.V1.ViewModels;
+using Api.V2.ViewModels;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Interfaces.Services;
@@ -7,11 +7,11 @@ using Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.V1.Controllers
+namespace Api.V2.Controllers
 {
     [Authorize(Roles = "RegularUsers")]
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/Accounts")]
+    [Route("api/v{version:apiVersion}/accounts")]
     public class AccountsController : MainController
     {
         private readonly IAccountService _accountService;

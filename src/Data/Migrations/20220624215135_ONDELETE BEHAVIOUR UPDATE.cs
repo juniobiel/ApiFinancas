@@ -6,7 +6,7 @@ namespace Data.Migrations
 {
     public partial class ONDELETEBEHAVIOURUPDATE : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Transactions_Accounts_AccountId",
@@ -33,7 +33,7 @@ namespace Data.Migrations
                 onDelete: ReferentialAction.SetNull);
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Transactions_Accounts_AccountId",

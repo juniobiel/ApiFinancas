@@ -49,7 +49,7 @@ namespace Api.V1.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "RegularUsers");
                 await _signInManager.SignInAsync(user, isPersistent: true);
-                
+
                 return CustomResponse(registerUser);
             }
 
@@ -74,7 +74,7 @@ namespace Api.V1.Controllers
                 return CustomResponse(await GerarJwt(loginUser.Email));
             }
 
-            if(result.IsLockedOut)
+            if (result.IsLockedOut)
             {
                 NotifyError("Usuário temporariamente bloqueado por tentativas inválidas");
                 return CustomResponse(loginUser);
@@ -102,10 +102,10 @@ namespace Api.V1.Controllers
             claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Email, user.Email));
             claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString()));
-            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString(), 
+            claims.Add(new System.Security.Claims.Claim(JwtRegisteredClaimNames.Nbf, ToUnixEpochDate(DateTime.UtcNow).ToString(),
                 ClaimValueTypes.Integer64));
 
-            foreach(var userRole in userRoles)
+            foreach (var userRole in userRoles)
             {
                 claims.Add(new Claim("role", userRole));
             }

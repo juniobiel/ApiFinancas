@@ -14,8 +14,8 @@ namespace Api.V1.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly IMapper _mapper;
-        public TransactionsController( INotificator notificator, IUser appUser, 
-                    ITransactionService transactionService, 
+        public TransactionsController( INotificator notificator, IUser appUser,
+                    ITransactionService transactionService,
                     IMapper mapper ) : base(notificator, appUser)
         {
             _transactionService = transactionService;
@@ -23,7 +23,7 @@ namespace Api.V1.Controllers
         }
 
         [HttpPost("create-transaction")]
-        public  async Task<ActionResult> CreateTransaction(TransactionViewModel createTransactionViewModel)
+        public async Task<ActionResult> CreateTransaction( TransactionViewModel createTransactionViewModel )
         {
             if (!UserAuthenticated)
                 return BadRequest("Efetue o login novamente!");
@@ -38,11 +38,11 @@ namespace Api.V1.Controllers
         [HttpGet("list")]
         public async Task<IEnumerable<TransactionViewModel>> ListTransactions()
         {
-            return  _mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionService.GetTransactions());
+            return _mapper.Map<IEnumerable<TransactionViewModel>>(await _transactionService.GetTransactions());
         }
 
         [HttpGet("filter-date")]
-        public async Task<ActionResult> ListTransactionByPeriod(TransactionFilterViewModel transactionPeriodViewModel)
+        public async Task<ActionResult> ListTransactionByPeriod( TransactionFilterViewModel transactionPeriodViewModel )
         {
             if (!UserAuthenticated)
                 return BadRequest("Efetue o login novamente!");
@@ -57,7 +57,7 @@ namespace Api.V1.Controllers
 
 
         [HttpPut("edit")]
-        public async Task<ActionResult> EditTransaction(TransactionViewModel transactionEditViewModel)
+        public async Task<ActionResult> EditTransaction( TransactionViewModel transactionEditViewModel )
         {
             if (!UserAuthenticated)
                 return BadRequest("Efetue o login novamente!");

@@ -6,9 +6,9 @@
         public string CategoryName { get; set; }
         public TransactionType TransactionType { get; set; }
 
-        public Guid CategoryCreatedByUserId { get; set; }
+        public Guid UserId_Created { get; set; }
         public DateTime CreatedAt { get; set; }
-        public Guid? CategoryUpdatedByUserId { get; set; }
+        public Guid? UserId_Updated { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         /* EF Relations */

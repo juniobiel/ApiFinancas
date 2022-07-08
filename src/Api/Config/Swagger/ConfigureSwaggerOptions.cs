@@ -11,7 +11,7 @@ namespace Api.Config.Swagger
 
         public ConfigureSwaggerOptions( IApiVersionDescriptionProvider provider ) => this.provider = provider;
 
-        public void Configure (SwaggerGenOptions options)
+        public void Configure( SwaggerGenOptions options )
         {
             foreach (var description in provider.ApiVersionDescriptions)
             {
@@ -19,7 +19,7 @@ namespace Api.Config.Swagger
             }
         }
 
-        static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
+        static OpenApiInfo CreateInfoForApiVersion( ApiVersionDescription description )
         {
             var info = new OpenApiInfo
             {
@@ -30,12 +30,12 @@ namespace Api.Config.Swagger
                 License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             };
 
-            if(description.IsDeprecated)
+            if (description.IsDeprecated)
             {
                 info.Description += "Esta versão está obsoleta";
             }
 
             return info;
-        }        
+        }
     }
 }

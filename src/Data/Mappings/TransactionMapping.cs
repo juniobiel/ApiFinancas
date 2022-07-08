@@ -8,7 +8,7 @@ namespace Data.Mappings
     {
         public void Configure( EntityTypeBuilder<Transaction> builder )
         {
-            builder.HasKey(pk => new { pk.TransactionId, pk.AccountId } );
+            builder.HasKey(pk => new { pk.TransactionId, pk.AccountId });
 
             builder.Property(t => t.TransactionId)
                 .ValueGeneratedOnAdd();

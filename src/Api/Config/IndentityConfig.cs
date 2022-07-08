@@ -10,7 +10,7 @@ namespace Api.Config
 {
     public static class IndentityConfig
     {
-        public static IServiceCollection AddIndentityConfiguration(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIndentityConfiguration( this IServiceCollection services, IConfiguration configuration )
         {
             services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 

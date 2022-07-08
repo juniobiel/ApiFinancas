@@ -1,5 +1,4 @@
-﻿using Business.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Api.V1.ViewModels
 {

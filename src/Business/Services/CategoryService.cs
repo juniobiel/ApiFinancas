@@ -18,17 +18,17 @@ namespace Business.Services
             _appUser = appUser;
         }
 
-        public async Task Add(Category category)
+        public async Task Add( Category category )
         {
             if (!ExecuteValidation(new CategoryValidation(), category)) return;
 
-            category.CategoryCreatedByUserId = _appUser.GetUserId();
+            category.UserId_Created = _appUser.GetUserId();
             category.CreatedAt = DateTime.Now;
 
             var categoryVerify = _categoryRepository
                                                     .Search(a => a.CategoryName == category.CategoryName
                                                     && a.TransactionType == category.TransactionType
-                                                    && a.CategoryCreatedByUserId == category.CategoryCreatedByUserId);
+                                                    && a.UserId_Created == category.UserId_Created);
             if (categoryVerify.Result.Any())
             {
                 Notify("Já existe esta categoria!");
@@ -38,15 +38,15 @@ namespace Business.Services
             await _categoryRepository.Add(category);
         }
 
-        public async Task Update(Category category)
+        public async Task Update( Category category )
         {
             if (!ExecuteValidation(new CategoryValidation(), category)) return;
 
             var categoryAux = await GetCategoryById(category.CategoryId);
 
-            category.CategoryCreatedByUserId = categoryAux.CategoryCreatedByUserId;
+            category.UserId_Created = categoryAux.UserId_Created;
             category.CreatedAt = categoryAux.CreatedAt;
-            category.CategoryUpdatedByUserId = _appUser.GetUserId();
+            category.UserId_Updated = _appUser.GetUserId();
             category.UpdatedAt = DateTime.Now;
 
             await _categoryRepository.Update(category);
@@ -64,7 +64,7 @@ namespace Business.Services
 
         public Task Remove( int id )
         {
-           return _categoryRepository.Remove(id);
+            return _categoryRepository.Remove(id);
         }
 
         public void Dispose()

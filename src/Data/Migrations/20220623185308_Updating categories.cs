@@ -6,7 +6,7 @@ namespace Data.Migrations
 {
     public partial class Updatingcategories : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.RenameColumn(
                 name: "AccountUpdatedByUserId",
@@ -19,7 +19,7 @@ namespace Data.Migrations
                 newName: "CategoryCreatedByUserId");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.RenameColumn(
                 name: "CategoryUpdatedByUserId",

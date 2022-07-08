@@ -4,14 +4,14 @@
     {
         private readonly RequestDelegate _next;
 
-        public SwaggerAuthorizedMiddleware( RequestDelegate next)
+        public SwaggerAuthorizedMiddleware( RequestDelegate next )
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke( HttpContext context )
         {
-            if(context.Request.Path.StartsWithSegments("/swagger") && !context.User.Identity.IsAuthenticated)
+            if (context.Request.Path.StartsWithSegments("/swagger") && !context.User.Identity.IsAuthenticated)
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 return;

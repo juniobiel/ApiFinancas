@@ -14,7 +14,7 @@ namespace Api.Config
 {
     public static class DependencyInjections
     {
-        public static IServiceCollection ResolveDependencies(this IServiceCollection services)
+        public static IServiceCollection ResolveDependencies( this IServiceCollection services )
         {
             services.AddScoped<FinanceDbContext>();
 
@@ -33,6 +33,12 @@ namespace Api.Config
 
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+            services.AddScoped<IStockService, StockService>();
+            services.AddScoped<IStockRepository, StockRepository>();
+
+            services.AddScoped<IStockPurchaseService, StockPurchaseService>();
+            services.AddScoped<IStockPurchaseRepository, StockPurchaseRepository>();
 
             return services;
         }

@@ -12,7 +12,7 @@ namespace Data.Repository
 
         protected readonly DbSet<TEntity> DbSet;
 
-        protected Repository(FinanceDbContext db)
+        protected Repository( FinanceDbContext db )
         {
             Db = db;
             DbSet = db.Set<TEntity>();
@@ -45,7 +45,7 @@ namespace Data.Repository
             return await Db.SaveChangesAsync();
         }
 
-        public virtual void Remove(TEntity entity)
+        public virtual void Remove( TEntity entity )
         {
             DbSet.Remove(entity);
         }
@@ -55,6 +55,6 @@ namespace Data.Repository
             Db?.Dispose();
         }
 
-        
+
     }
 }

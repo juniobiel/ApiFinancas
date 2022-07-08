@@ -4,7 +4,7 @@ namespace Api.Config
 {
     public static class ApiConfig
     {
-        public static IServiceCollection AddApiConfig(this IServiceCollection services)
+        public static IServiceCollection AddApiConfig( this IServiceCollection services )
         {
             services.AddControllers();
 

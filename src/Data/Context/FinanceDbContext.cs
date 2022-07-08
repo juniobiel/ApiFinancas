@@ -11,7 +11,10 @@ namespace Data.Context
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Category> Categories { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<StockPurchase> StockPurchases { get; set; }
+
+        protected override void OnModelCreating( ModelBuilder modelBuilder )
         {
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                 .SelectMany(e => e.GetProperties()).Where(p => p.ClrType == typeof(string)))

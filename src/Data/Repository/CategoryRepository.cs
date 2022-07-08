@@ -11,19 +11,19 @@ namespace Data.Repository
         {
         }
 
-        public async Task<IEnumerable<Category>> GetCategoriesUser(Guid userId)
+        public async Task<IEnumerable<Category>> GetCategoriesUser( Guid userId )
         {
             return await Db.Categories.AsNoTracking()
-                .Where(c => c.CategoryCreatedByUserId == userId).ToListAsync();
+                .Where(c => c.UserId_Created == userId).ToListAsync();
         }
-        public async Task<Category> GetCategoryUserById(Guid userId, int id )
+        public async Task<Category> GetCategoryUserById( Guid userId, int id )
         {
             return await Db.Categories.AsNoTracking()
-                .Where(c => c.CategoryCreatedByUserId == userId)
+                .Where(c => c.UserId_Created == userId)
                 .FirstOrDefaultAsync(c => c.CategoryId == id);
         }
 
-        public async Task Remove(int id)
+        public async Task Remove( int id )
         {
             Db.Categories.Remove(new Category { CategoryId = id });
             await base.SaveChanges();

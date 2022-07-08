@@ -4,9 +4,9 @@ namespace Api.Extensions
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static string GetUserId(this ClaimsPrincipal principal)
+        public static string GetUserId( this ClaimsPrincipal principal )
         {
-            if(principal == null)
+            if (principal == null)
             {
                 throw new ArgumentException(nameof(principal));
             }
@@ -15,9 +15,9 @@ namespace Api.Extensions
             return claim?.Value;
         }
 
-        public static string GetUserEmail(this ClaimsPrincipal principal)
+        public static string GetUserEmail( this ClaimsPrincipal principal )
         {
-            if(principal == null)
+            if (principal == null)
             {
                 throw new ArgumentException(nameof(principal));
             }

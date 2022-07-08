@@ -33,21 +33,21 @@ namespace Data.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasDefaultValue(0m);
 
-                    b.Property<Guid>("AccountCreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("AccountName")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<Guid?>("AccountUpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId_Created")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId_Updated")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("AccountId");
 
@@ -62,15 +62,9 @@ namespace Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
 
-                    b.Property<Guid>("CategoryCreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("varchar(100)");
-
-                    b.Property<Guid?>("CategoryUpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -81,9 +75,93 @@ namespace Data.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("UserId_Created")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId_Updated")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("Business.Models.Stock", b =>
+                {
+                    b.Property<int>("StockId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StockId"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("InitialDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InitialPrice")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("StockName")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("varchar(7)")
+                        .HasColumnName("Stock_Name");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId_Created")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId_Updated")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("StockId");
+
+                    b.ToTable("Stocks", (string)null);
+                });
+
+            modelBuilder.Entity("Business.Models.StockPurchase", b =>
+                {
+                    b.Property<Guid>("StockPurchaseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("PurchaseTaxes")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("StockPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("StockQtd")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId_Created")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId_Updated")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("StockPurchaseId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Stock_Purchases", (string)null);
                 });
 
             modelBuilder.Entity("Business.Models.Transaction", b =>
@@ -110,20 +188,20 @@ namespace Data.Migrations
                         .HasColumnType("varchar(200)")
                         .HasDefaultValue("Nova movimentação");
 
-                    b.Property<Guid>("TransactionCreatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("TransactionUpdatedByUserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId_Created")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserId_Updated")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
@@ -137,6 +215,17 @@ namespace Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("Business.Models.StockPurchase", b =>
+                {
+                    b.HasOne("Business.Models.Stock", "Stock")
+                        .WithMany("StockPurchases")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Business.Models.Transaction", b =>
@@ -173,6 +262,11 @@ namespace Data.Migrations
             modelBuilder.Entity("Business.Models.Category", b =>
                 {
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Business.Models.Stock", b =>
+                {
+                    b.Navigation("StockPurchases");
                 });
 #pragma warning restore 612, 618
         }

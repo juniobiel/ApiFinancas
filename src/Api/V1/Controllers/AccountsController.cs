@@ -16,21 +16,21 @@ namespace Api.V1.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
-        public AccountsController(INotificator notificator, IUser appUser, 
-            IAccountService accountService, 
-            IMapper mapper) : base(notificator, appUser)
+        public AccountsController( INotificator notificator, IUser appUser,
+            IAccountService accountService,
+            IMapper mapper ) : base(notificator, appUser)
         {
             _accountService = accountService;
             _mapper = mapper;
         }
 
         [HttpPost("create-account")]
-        public async Task<ActionResult> CreateAccount(AccountViewModel createAccountViewModel)
+        public async Task<ActionResult> CreateAccount( AccountViewModel createAccountViewModel )
         {
             if (!UserAuthenticated)
                 return BadRequest("Efetue o login novamente!");
 
-            if (!ModelState.IsValid) return CustomResponse(ModelState);     
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _accountService.Add(_mapper.Map<Account>(createAccountViewModel));
 
@@ -38,7 +38,7 @@ namespace Api.V1.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult> EditAccount(AccountViewModel accountUpdateViewModel)
+        public async Task<ActionResult> EditAccount( AccountViewModel accountUpdateViewModel )
         {
             var account = await _accountService.GetAccountById(accountUpdateViewModel.AccountId);
 
@@ -51,14 +51,14 @@ namespace Api.V1.Controllers
 
             await _accountService.Update(_mapper.Map<Account>(accountUpdateViewModel));
 
-            return StatusCode(200, new 
-            { 
-                message = "Conta atualizada com sucesso!", 
+            return StatusCode(200, new
+            {
+                message = "Conta atualizada com sucesso!",
                 accountUpdateViewModel,
                 account
             });
         }
-        
+
         [HttpGet("list")]
         public async Task<IEnumerable<AccountViewModel>> ListAccounts()
         {
@@ -66,7 +66,7 @@ namespace Api.V1.Controllers
         }
 
         [HttpDelete("delete/{accountId:guid}")]
-        public async Task<ActionResult> DeleteAccount(Guid accountId)
+        public async Task<ActionResult> DeleteAccount( Guid accountId )
         {
             var account = await _accountService.GetAccountById(accountId);
 

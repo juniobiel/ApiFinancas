@@ -6,7 +6,7 @@ namespace Data.Migrations
 {
     public partial class ModelsUpdate : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.AlterColumn<int>(
                 name: "TransactionType",
@@ -25,7 +25,7 @@ namespace Data.Migrations
                 oldType: "int");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.AlterColumn<string>(
                 name: "TransactionType",

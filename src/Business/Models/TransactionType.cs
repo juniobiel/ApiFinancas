@@ -4,6 +4,6 @@
     {
         Revenue = 0,
         Expense = 1,
-        Transfer = 2       
+        Transfer = 2
     }
 }

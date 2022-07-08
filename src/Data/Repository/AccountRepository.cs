@@ -7,20 +7,20 @@ namespace Data.Repository
 {
     public class AccountRepository : Repository<Account>, IAccountRepository
     {
-        public AccountRepository(FinanceDbContext context) : base(context) { }
+        public AccountRepository( FinanceDbContext context ) : base(context) { }
 
-        public async Task<Account> GetAccountUserById(Guid userId, Guid? id )
+        public async Task<Account> GetAccountUserById( Guid userId, Guid? id )
         {
             return await Db.Accounts.AsNoTracking()
-                .Where(a => a.AccountCreatedByUserId == userId)
+                .Where(a => a.UserId_Created == userId)
                 .FirstOrDefaultAsync(t => t.AccountId == id);
         }
 
 
-        public async Task<IEnumerable<Account>> GetUserAccounts( Guid userId)
+        public async Task<IEnumerable<Account>> GetUserAccounts( Guid userId )
         {
             return await Db.Accounts.AsNoTracking()
-                .Where(a => a.AccountCreatedByUserId == userId)
+                .Where(a => a.UserId_Created == userId)
                 .ToListAsync();
         }
 

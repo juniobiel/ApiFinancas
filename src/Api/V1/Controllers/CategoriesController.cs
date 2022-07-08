@@ -16,8 +16,8 @@ namespace Api.V1.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        public CategoriesController( INotificator notificator, IUser appUser, 
-            ICategoryService categoryService, 
+        public CategoriesController( INotificator notificator, IUser appUser,
+            ICategoryService categoryService,
             IMapper mapper ) : base(notificator, appUser)
         {
             _categoryService = categoryService;
@@ -25,7 +25,7 @@ namespace Api.V1.Controllers
         }
 
         [HttpPost("create-category")]
-        public async Task<ActionResult> CreateCategory(CategoryViewModel newCategoryViewModel)
+        public async Task<ActionResult> CreateCategory( CategoryViewModel newCategoryViewModel )
         {
             if (!UserAuthenticated)
                 return BadRequest("Efetue o login novamente!");
@@ -60,18 +60,18 @@ namespace Api.V1.Controllers
         }
 
         [HttpPut("edit")]
-        public async Task<ActionResult> EditCategory(CategoryViewModel categoryEditViewModel)
+        public async Task<ActionResult> EditCategory( CategoryViewModel categoryEditViewModel )
         {
-            var category = await _categoryService.GetCategoryById((int) categoryEditViewModel.CategoryId);
+            var category = await _categoryService.GetCategoryById((int)categoryEditViewModel.CategoryId);
 
             if (!ModelState.IsValid) return CustomResponse(categoryEditViewModel);
 
-            if(category == null)
+            if (category == null)
             {
                 return NotFound("Não é uma categoria válida!");
             }
 
-            if(category.TransactionType != (TransactionType) categoryEditViewModel.TransactionType)
+            if (category.TransactionType != (TransactionType)categoryEditViewModel.TransactionType)
             {
                 return BadRequest("Não é possível alterar o tipo de transação vinculado a esta categoria");
             }
@@ -86,7 +86,7 @@ namespace Api.V1.Controllers
         }
 
         [HttpDelete("delete/{categoryId:int}")]
-        public async Task<ActionResult> DeleteCategory(int categoryId)
+        public async Task<ActionResult> DeleteCategory( int categoryId )
         {
             var category = await _categoryService.GetCategoryById(categoryId);
 

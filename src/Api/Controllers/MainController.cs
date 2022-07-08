@@ -15,12 +15,12 @@ namespace Api.Controllers
         protected Guid UserId { get; set; }
         protected bool UserAuthenticated { get; set; }
 
-        public MainController(INotificator notificator, IUser appUser)
+        public MainController( INotificator notificator, IUser appUser )
         {
             _notificator = notificator;
             AppUser = appUser;
 
-            if(appUser.IsAuthenticated())
+            if (appUser.IsAuthenticated())
             {
                 UserId = appUser.GetUserId();
                 UserAuthenticated = true;
@@ -32,7 +32,7 @@ namespace Api.Controllers
             return !_notificator.HasNotification();
         }
 
-        protected ActionResult CustomResponse(object result = null)
+        protected ActionResult CustomResponse( object result = null )
         {
             if (ValidOperation())
             {
@@ -51,18 +51,18 @@ namespace Api.Controllers
         }
 
 
-        protected void NotifyInvalidModelError(ModelStateDictionary modelState)
+        protected void NotifyInvalidModelError( ModelStateDictionary modelState )
         {
             var errors = modelState.Values.SelectMany(e => e.Errors);
 
-            foreach(var error in errors)
+            foreach (var error in errors)
             {
                 var errorMsg = error.Exception == null ? error.ErrorMessage : error.Exception.Message;
                 NotifyError(errorMsg);
             }
         }
 
-        protected void NotifyError(string message)
+        protected void NotifyError( string message )
         {
             _notificator.Handle(new Notification(message));
         }

@@ -10,9 +10,9 @@ namespace Business.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IUser _appUser;
-        public AccountService(IAccountRepository accountRepository,
+        public AccountService( IAccountRepository accountRepository,
                                 INotificator notificator,
-                                IUser appUser) : base(notificator)
+                                IUser appUser ) : base(notificator)
         {
             _accountRepository = accountRepository;
             _appUser = appUser;
@@ -22,11 +22,11 @@ namespace Business.Services
         {
             if (!ExecuteValidation(new AccountValidation(), account)) return;
 
-            account.AccountCreatedByUserId = _appUser.GetUserId();
+            account.UserId_Created = _appUser.GetUserId();
             account.CreatedAt = DateTime.Now;
 
-            if (_accountRepository.Search(a => a.AccountName == account.AccountName 
-            && a.AccountCreatedByUserId == account.AccountCreatedByUserId).Result.Any())
+            if (_accountRepository.Search(a => a.AccountName == account.AccountName
+            && a.UserId_Created == account.UserId_Created).Result.Any())
             {
                 Notify("Já existe uma conta com este nome!");
                 return;
@@ -41,16 +41,16 @@ namespace Business.Services
 
             var accountAux = await _accountRepository.GetAccountUserById(_appUser.GetUserId(), account.AccountId);
 
-            account.AccountCreatedByUserId = accountAux.AccountCreatedByUserId;
+            account.UserId_Created = accountAux.UserId_Created;
             account.CreatedAt = accountAux.CreatedAt;
 
             account.UpdatedAt = DateTime.Now;
-            account.AccountUpdatedByUserId = _appUser.GetUserId();
+            account.UserId_Updated = _appUser.GetUserId();
 
             await _accountRepository.Update(account);
         }
 
-        public async Task<Account> GetAccountById(Guid? id)
+        public async Task<Account> GetAccountById( Guid? id )
         {
             return await _accountRepository.GetAccountUserById(_appUser.GetUserId(), id);
         }
@@ -61,7 +61,7 @@ namespace Business.Services
         }
         public async Task Remove( Guid id )
         {
-           await _accountRepository.Remove(id);   
+            await _accountRepository.Remove(id);
         }
 
         public void Dispose()

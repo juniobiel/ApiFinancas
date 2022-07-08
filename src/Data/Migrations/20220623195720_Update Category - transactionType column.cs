@@ -6,7 +6,7 @@ namespace Data.Migrations
 {
     public partial class UpdateCategorytransactionTypecolumn : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
+        protected override void Up( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.AlterColumn<int>(
                 name: "TransactionType",
@@ -17,7 +17,7 @@ namespace Data.Migrations
                 oldType: "varchar(100)");
         }
 
-        protected override void Down(MigrationBuilder migrationBuilder)
+        protected override void Down( MigrationBuilder migrationBuilder )
         {
             migrationBuilder.AlterColumn<string>(
                 name: "TransactionType",

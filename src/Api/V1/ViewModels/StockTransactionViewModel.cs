@@ -18,8 +18,8 @@ namespace Api.V1.ViewModels
         [Range(1, 9999)]
         public int StockQt { get; set; }
 
-        [Required(ErrorMessage = "O valor não pode ser menor que 0")]
-        [Range(0, 9999)]
+        [Required(ErrorMessage = "O valor precisa ser maior que 0")]
+        [Range(0.01, 9999)]
         public decimal TransactionTaxes { get; set; }
 
         [Required(ErrorMessage = "Insira a data da compra")]

@@ -14,6 +14,6 @@
         public DateTime? UpdatedAt { get; set; }
 
         //EF Relations
-        public IEnumerable<StockTransaction> StockTransactions{ get; set; }
+        public IEnumerable<StockTransaction> StockPurchases { get; set; }
     }
 }

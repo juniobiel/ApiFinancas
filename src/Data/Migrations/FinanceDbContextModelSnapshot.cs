@@ -147,9 +147,6 @@ namespace Data.Migrations
                         .HasMaxLength(7)
                         .HasColumnType("varchar(7)");
 
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2");
 

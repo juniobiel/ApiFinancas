@@ -32,8 +32,11 @@ namespace Data.Mappings
             builder.Property(s => s.TransactionType)
                 .IsRequired();
 
+            builder.Property(s => s.Total)
+                .IsRequired();
+
             builder.HasOne(s => s.Stock)
-                .WithMany(s => s.StockPurchases)
+                .WithMany(s => s.StockTransactions)
                 .HasForeignKey(s => s.StockId);
 
             builder.ToTable("Stock_Transactions");

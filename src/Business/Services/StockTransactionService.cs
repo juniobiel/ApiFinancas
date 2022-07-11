@@ -87,10 +87,27 @@ namespace Business.Services
                     break;
             }
 
+            stockTransaction.Total = (stockTransaction.StockQt * stockTransaction.StockPrice) + stockTransaction.TransactionTaxes;
+
             stockTransaction.UserId_Created = _appUser.GetUserId();
             stockTransaction.CreatedAt = DateTime.Now;
 
             await _stockTransactionRepository.Add(stockTransaction);
+        }
+
+        public async Task<decimal> GetMediumPrice(string ticker)
+        {
+            var result = await _stockTransactionRepository.GetTransactionsByTicker(_appUser.GetUserId(), ticker);
+            var stock = await _stockService.GetStockByTicker(ticker);
+
+            decimal mediumPrice = 0;
+
+            foreach(var transaction in result)
+            {
+                mediumPrice += transaction.Total;
+            }
+
+            return mediumPrice / stock.StockQt;
         }
 
         public void Dispose()

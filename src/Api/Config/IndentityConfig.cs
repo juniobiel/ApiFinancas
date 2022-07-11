@@ -10,7 +10,8 @@ namespace Api.Config
 {
     public static class IndentityConfig
     {
-        public static IServiceCollection AddIndentityConfiguration( this IServiceCollection services, IConfiguration configuration )
+        public static IServiceCollection AddIndentityConfiguration( this IServiceCollection services, 
+            IConfiguration configuration)
         {
             services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
@@ -19,6 +20,14 @@ namespace Api.Config
                 .AddEntityFrameworkStores<ApiDbContext>()
                 .AddDefaultTokenProviders()
                 .AddErrorDescriber<IdentityMensagensPortugues>();
+
+            var roleManager = services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
+            var role = new IdentityRole("RegularUsers");
+
+            if (roleManager.GetRoleNameAsync(role) == null)
+            {
+                roleManager.CreateAsync(role);
+            }
 
             //JWT
             var appSettingsSection = configuration.GetSection("AppSettings");

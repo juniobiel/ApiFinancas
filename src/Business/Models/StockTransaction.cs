@@ -10,6 +10,8 @@
         public decimal TransactionTaxes { get; set; }
         public DateTime TransactionDate { get; set; }
         public TransactionType TransactionType { get; set; }
+        public decimal Total { get; set; }
+
 
         public Guid UserId_Created { get; set; }
         public DateTime CreatedAt { get; set; }

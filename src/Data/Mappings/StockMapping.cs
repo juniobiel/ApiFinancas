@@ -27,7 +27,7 @@ namespace Data.Mappings
             builder.Property(s => s.StockQt)
                 .IsRequired();
 
-            builder.HasMany(s => s.StockPurchases)
+            builder.HasMany(s => s.StockTransactions)
                 .WithOne(s => s.Stock);
 
 

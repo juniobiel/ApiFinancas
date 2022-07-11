@@ -22,10 +22,10 @@ namespace Api.Config
                 .AddErrorDescriber<IdentityMensagensPortugues>();
 
             var roleManager = services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
-            var role = new IdentityRole("RegularUsers");
 
             if (roleManager.GetRoleNameAsync(role) == null)
             {
+                var role = new IdentityRole("RegularUsers");
                 roleManager.CreateAsync(role);
             }
 

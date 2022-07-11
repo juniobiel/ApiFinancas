@@ -10,8 +10,7 @@ namespace Api.Config
 {
     public static class IndentityConfig
     {
-        public static IServiceCollection AddIndentityConfiguration( this IServiceCollection services, 
-            IConfiguration configuration)
+        public static IServiceCollection AddIndentityConfiguration( this IServiceCollection services, IConfiguration configuration )
         {
             services.AddDbContext<ApiDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
@@ -21,6 +20,7 @@ namespace Api.Config
                 .AddDefaultTokenProviders()
                 .AddErrorDescriber<IdentityMensagensPortugues>();
 
+<<<<<<< HEAD
             var roleManager = services.BuildServiceProvider().GetService<RoleManager<IdentityRole>>();
 
             if (roleManager.GetRoleNameAsync(role) == null)
@@ -29,6 +29,8 @@ namespace Api.Config
                 roleManager.CreateAsync(role);
             }
 
+=======
+>>>>>>> parent of 8f94de2 (Finishing Medium-Price funcionnality)
             //JWT
             var appSettingsSection = configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);

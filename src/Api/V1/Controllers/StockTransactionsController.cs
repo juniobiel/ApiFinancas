@@ -4,14 +4,12 @@ using AutoMapper;
 using Business.Interfaces;
 using Business.Interfaces.Services;
 using Business.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.V1.Controllers
 {
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/StockPurchase")]
-    [Authorize(Roles = "RegularUsers")]
     public class StockTransactionsController : MainController
     {
         private readonly IMapper _mapper;
@@ -50,16 +48,6 @@ namespace Api.V1.Controllers
             await _stockTransactionService.Add(_mapper.Map<StockTransaction>(createViewModel));
 
             return CustomResponse(createViewModel);
-        }
-
-        [HttpGet("medium-price/{ticker}")]
-        public async Task<ActionResult> GetPrice(string ticker)
-        {
-            if (!UserAuthenticated) return BadRequest("Efetue o login novamente!");
-
-            var result = await _stockTransactionService.GetMediumPrice(ticker);
-
-            return Ok($"O valor médio de {ticker} é {decimal.Round(result,2)}");
         }
     }
 }

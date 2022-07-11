@@ -12,7 +12,7 @@ namespace Data.Context
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Stock> Stocks { get; set; }
-        public DbSet<StockTransaction> StockTransactions { get; set; }
+        public DbSet<StockTransaction> StockPurchases { get; set; }
 
         protected override void OnModelCreating( ModelBuilder modelBuilder )
         {

@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Api.Controllers
 {
-    [Route("api/")]
+    [Route("api/v{version:apiVersion}")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;

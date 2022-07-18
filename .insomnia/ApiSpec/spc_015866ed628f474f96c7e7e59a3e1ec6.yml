@@ -1,0 +1,358 @@
+_id: spc_015866ed628f474f96c7e7e59a3e1ec6
+type: ApiSpec
+parentId: wrk_4cc6117b44864cc3b402afd6d7b66a6c
+modified: 1658165237125
+created: 1658164887991
+fileName: insomnia-config.yaml
+contents: |-
+  {
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Finance API",
+      "description": "API para controle e gestão de Finanças",
+      "contact": {
+        "name": "Gabriel Júnio",
+        "email": "gabrieljunio.fp@gmail.com"
+      },
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      },
+      "version": "1.0"
+    },
+    "paths": {
+      "/api/create-account": {
+        "post": {
+          "tags": [
+            "Auth"
+          ],
+          "parameters": [
+            {
+              "name": "api-version",
+              "in": "query",
+              "description": "The requested API version",
+              "schema": {
+                "type": "string",
+                "default": "1.0"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserViewModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterUserViewModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/sign-in": {
+        "post": {
+          "tags": [
+            "Auth"
+          ],
+          "parameters": [
+            {
+              "name": "api-version",
+              "in": "query",
+              "description": "The requested API version",
+              "schema": {
+                "type": "string",
+                "default": "1.0"
+              }
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserViewModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginUserViewModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/sign-out": {
+        "get": {
+          "tags": [
+            "Auth"
+          ],
+          "parameters": [
+            {
+              "name": "api-version",
+              "in": "query",
+              "description": "The requested API version",
+              "schema": {
+                "type": "string",
+                "default": "1.0"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/v1/StockPurchase/new-purchase": {
+        "post": {
+          "tags": [
+            "StockTransactions"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/v1/StockPurchase/new-sell": {
+        "post": {
+          "tags": [
+            "StockTransactions"
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              },
+              "application/*+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockTransactionViewModel"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/v1/StockPurchase/medium-price/{ticker}": {
+        "get": {
+          "tags": [
+            "StockTransactions"
+          ],
+          "parameters": [
+            {
+              "name": "ticker",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/api/v1/StockPurchase/profit/{ticker}": {
+        "get": {
+          "tags": [
+            "StockTransactions"
+          ],
+          "parameters": [
+            {
+              "name": "ticker",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "LoginUserViewModel": {
+          "required": [
+            "email",
+            "password"
+          ],
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "password": {
+              "maxLength": 100,
+              "minLength": 6,
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "RegisterUserViewModel": {
+          "required": [
+            "email",
+            "password"
+          ],
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "password": {
+              "maxLength": 100,
+              "minLength": 6,
+              "type": "string"
+            },
+            "confirmPassword": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "StockTransactionViewModel": {
+          "required": [
+            "stockPrice",
+            "stockQt",
+            "stockTicker",
+            "stockType",
+            "transactionDate",
+            "transactionTaxes",
+            "transactionType"
+          ],
+          "type": "object",
+          "properties": {
+            "stockTransactionId": {
+              "type": "string",
+              "format": "uuid",
+              "nullable": true
+            },
+            "stockId": {
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
+            },
+            "stockTicker": {
+              "type": "string"
+            },
+            "stockPrice": {
+              "type": "number",
+              "format": "double"
+            },
+            "stockQt": {
+              "maximum": 9999,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32"
+            },
+            "transactionTaxes": {
+              "maximum": 9999,
+              "minimum": 0,
+              "type": "number",
+              "format": "double"
+            },
+            "transactionDate": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "transactionType": {
+              "maximum": 4,
+              "minimum": 3,
+              "type": "integer",
+              "format": "int32"
+            },
+            "stockType": {
+              "maximum": 3,
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "securitySchemes": {
+        "Bearer": {
+          "type": "apiKey",
+          "description": "Insira o token JWT desta maneira: Bearer {seu token}",
+          "name": "Authorization",
+          "in": "header"
+        }
+      }
+    },
+    "security": [
+      {
+        "Bearer": [ ]
+      }
+    ]
+  }
+contentType: yaml

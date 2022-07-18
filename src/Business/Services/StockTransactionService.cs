@@ -37,7 +37,8 @@ namespace Business.Services
                             StockTicker = stockTransaction.StockTicker,
                             InitialPrice = stockTransaction.StockPrice,
                             InitialDate = stockTransaction.TransactionDate,
-                            StockQt = stockTransaction.StockQt
+                            StockQt = stockTransaction.StockQt,
+                            IsActive = true
                         };
 
                         stockTransaction.StockId = await _stockService.Add(stock);

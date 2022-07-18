@@ -12,7 +12,6 @@
         public TransactionType TransactionType { get; set; }
         public decimal Total { get; set; }
 
-
         public Guid UserId_Created { get; set; }
         public DateTime CreatedAt { get; set; }
         public Guid? UserId_Updated { get; set; }

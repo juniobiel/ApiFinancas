@@ -18,6 +18,12 @@ namespace Data.Mappings
                 .HasColumnType("varchar(7)")
                 .IsRequired();
 
+            builder.Property(s => s.StockType)
+                .IsRequired();
+
+            builder.Property(s => s.IsActive)
+                .IsRequired();
+
             builder.Property(s => s.InitialPrice)
                 .IsRequired();
 

@@ -7,6 +7,9 @@
         public decimal InitialPrice { get; set; }
         public DateTime InitialDate { get; set; }
         public int StockQt { get; set; }
+        public StockType StockType { get; set; }
+        public bool IsActive { get; set; }
+        public string Labels { get; set; }
 
         public Guid UserId_Created { get; set; }
         public DateTime CreatedAt { get; set; }

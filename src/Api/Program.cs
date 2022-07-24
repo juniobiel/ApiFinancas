@@ -1,29 +1,23 @@
-using Api.Config;
-using Api.Config.Swagger;
-using Data.Context;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddControllers();
 
-builder.Services.AddApiConfig();
-
-builder.Services.AddDbContext<FinanceDbContext>(options => options.UseSqlServer(connectionString));
-
-builder.Services.ResolveDependencies();
-
-builder.Services.AddIndentityConfiguration(builder.Configuration);
-
-builder.Services.AddSwaggerConfig();
-
-builder.Services.AddAutoMapper(typeof(Program));
-
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
 
@@ -31,7 +25,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 app.Run();

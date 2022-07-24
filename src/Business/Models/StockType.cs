@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Models
+﻿namespace Business.Models
 {
     public enum StockType : int
     {
         Stock = 0,
-        RealState = 1,
-        BDR = 2,
-        ETF = 3
+        Future = 1,
+        Options = 2,
+        RealState = 3,
+        Funds = 4,
+        BDR = 5,
+        ETF = 6
     }
 }

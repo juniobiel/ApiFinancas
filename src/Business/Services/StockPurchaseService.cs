@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.Services
 {
-    public class StockPurchase
+    public class StockPurchaseService
     {
         private readonly IStockPurchaseRepository _stockPurchaseRepository;
 
-        public StockPurchase(IStockPurchaseRepository stockPurchaseRepository)
+        public StockPurchaseService(IStockPurchaseRepository stockPurchaseRepository)
         {
             _stockPurchaseRepository = stockPurchaseRepository;
         }

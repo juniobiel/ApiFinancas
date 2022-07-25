@@ -2,11 +2,11 @@
 {
     public enum StockType : int
     {
-        Stock = 0,
-        Future = 1,
-        Options = 2,
-        RealState = 3,
-        Funds = 4,
+        Acao = 0,
+        Futuro = 1,
+        Opcao = 2,
+        FundoImobiliario = 3,
+        FundoInvestimento = 4,
         BDR = 5,
         ETF = 6
     }
